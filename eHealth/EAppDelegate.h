@@ -7,13 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ELoginViewController.h"
+#import "Reachability.h"
 
 @class EViewController;
 
 @interface EAppDelegate : UIResponder <UIApplicationDelegate>
+{
+    Reachability *internetReach;
+    Reachability *wifiReach;
+    BOOL interConnect;
+    BOOL wifiConnect;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) EViewController *viewController;
+@property (strong, nonatomic) ELoginViewController* viewController;
+
+@property (nonatomic, strong) UIAlertView *alert;
 
 @end
