@@ -10,8 +10,10 @@
 #import <sqlite3.h>
 #define databaseName @"ehealth.db"
 
-@interface ERecureDetailViewController ()
-
+@interface ERecureDetailViewController ()<UINavigationBarDelegate>
+{
+    UIButton *barItem;
+}
 @end
 
 @implementation ERecureDetailViewController
@@ -31,8 +33,20 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"详细资料";
+    
+    [self.navigationController setNavigationBarHidden:NO];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"back" style:UIBarButtonItemStyleDone target:self action:@selector(Go)];
+    
+    /*
+    UINavigationBar *bb =  [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44)];
+    self.NVBar = bb;
+
+    [self.view addSubview:bb];
+     */
+
+    
     CGFloat width = self.view.bounds.size.width;
     NSLog(self.eid);
     
@@ -81,5 +95,11 @@
     NSString* path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     return [path stringByAppendingPathComponent:fileName];
 }
+
+- (void)Go
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end

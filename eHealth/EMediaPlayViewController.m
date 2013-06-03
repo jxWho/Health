@@ -8,9 +8,11 @@
 
 #import "EMediaPlayViewController.h"
 #import "EToday1ViewController.h"
+#import "EPatientModel.h"
 #import <sqlite3.h>
 #import "EFile.h"
 #define dataBaseName   @"ehealth.db"
+#define pictureRate    0.7
 
 @interface EMediaPlayViewController ()<ASIHTTPRequestDelegate>
 {
@@ -63,7 +65,7 @@
         self.MovieController.controlStyle = MPMovieControlStyleNone;
         [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
         [self.view addSubview:self.MovieController.view];
-        [self.MovieController prepareToPlay];
+        [self.MovieController play];
         movieStartTime = [NSDate date];
         totPlay = @1;
         
@@ -98,7 +100,6 @@
     [self.view addSubview:TF];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.MovieController];
-    self.MovieController.shouldAutoplay = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -135,7 +136,7 @@
     if( cnt > 0 ){
         self.count = [NSString stringWithFormat:@"%d",cnt];
         self.label.text = [NSString stringWithFormat:@"%@%d",@"剩余次数:",cnt];
-        [self.MovieController prepareToPlay];
+        [self.MovieController play];
         
         int tempTot = [totPlay intValue];
         tempTot ++;
@@ -158,8 +159,12 @@
         EToday1ViewController *fatherETV = (EToday1ViewController *)self.delegate;
         NSString *path = nil;
         
-        if( [fatherETV.todayList count] <= 1 )
+        float rate = pictureRate;
+        
+        if( [fatherETV.todayList count] <= 1 ){
             path = [[NSBundle mainBundle]pathForResource:@"break1" ofType:@"jpg"];
+            rate = 0.5;
+        }
         else if( [fatherETV.todayList count] > 1 ){
             NSString *pictureName = [fatherETV.todayList[1] objectForKey:@"eid"];
             pictureName = [NSString stringWithFormat:@"ex%@",pictureName];
@@ -168,11 +173,13 @@
         
         UIImage* im = [UIImage imageWithContentsOfFile:path];
         UIImageView* IV = [[UIImageView alloc]initWithImage:im];
-        [IV setFrame:CGRectMake((self.view.bounds.size.width - im.size.width)*0.5, 30, im.size.width, im.size.height)];
+        float tempWidth = im.size.width * rate;
+        float tempHeight = im.size.height * rate;
+        [IV setFrame:CGRectMake((self.view.bounds.size.width - tempWidth)*0.5, 30, tempWidth, tempHeight)];
         self.restView = IV;
         [self.view addSubview:self.restView];
         
-        UILabel* time = [[UILabel alloc]initWithFrame:CGRectMake(10, im.size.height + 30, self.view.bounds.size.width, 30)];
+        UILabel* time = [[UILabel alloc]initWithFrame:CGRectMake(10, tempHeight + 30, self.view.bounds.size.width, 30)];
         restTime = 5;
         time.text = [NSString stringWithFormat:@"%@%d%@",@"休息剩余时间:",restTime,@"秒"];
         breakTime = time;
@@ -261,12 +268,21 @@
     NSLog(@"%@ sdfsdf",kk);
     NSLog(@"test");
     if( url ){
-//        [self.MovieController.view removeFromSuperview];
+        [self.MovieController.view removeFromSuperview];
+        self.MovieController = nil;
         self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
         self.MovieController.controlStyle = MPMovieControlStyleNone;
         [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
+        [self.view addSubview:self.MovieController.view];
+        [self.MovieController play];
+        movieStartTime = [NSDate date];
+        totPlay = @1;
+        /*
+//        [self.MovieController.view removeFromSuperview];
+        self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
 //        [self.view addSubview:self.MovieController.view];
         [self.MovieController play];
+         */
     }
     
     int c = [self.count intValue];
@@ -324,15 +340,16 @@
     NSError *error = [[NSError alloc]init];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     NSNumber *rc = [json objectForKey:@"rc"];
+    NSLog(@"%@",json);
     if( [rc isEqual:@0] ){
         NSLog(@"upload succeed!");
-        
+        EPatientModel *singleton = [EPatientModel sharedEPatientModel];
         [bgView removeFromSuperview];
         [self.restView removeFromSuperview];
         [breakTime removeFromSuperview];
         [delegate goToNext];
         
-        if( [nowRow intValue] >= 0 ){
+        if( [singleton.unFinish count] > 0 ){
             [self reloadThisView];
         }else{
             [self.navigationController popViewControllerAnimated:YES];
@@ -350,6 +367,9 @@
     switch (state) {
             case MPMoviePlaybackStateStopped:
             NSLog(@"停止");
+            [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:MPMoviePlayerPlaybackDidFinishNotification object:nil]];
+            self.count = [NSString stringWithFormat:@"%d",0];
+            [SVStatusHUD showWithImage:nil status:@"视频损坏~~~"];
             break;
             
         case MPMoviePlaybackStatePlaying:

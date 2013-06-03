@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface EPatientModel : NSObject
-
+{
+    
+}
 @property (nonatomic, strong) NSMutableArray *unFinish;
 @property (nonatomic, strong) NSMutableArray *finish;
 @property (nonatomic, strong) NSMutableArray *questions;
 @property (nonatomic, strong) NSMutableArray *todayExercise;
+@property (nonatomic) BOOL questionFlag;  //标志是否完成问卷
 + (EPatientModel *)sharedEPatientModel;
 
 @end

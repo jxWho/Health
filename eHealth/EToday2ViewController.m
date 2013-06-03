@@ -52,7 +52,7 @@
     
     
     self.Finished = [EPatientModel sharedEPatientModel].finish;
-//    [self createConnectUnfinish];
+    
 
 }
 

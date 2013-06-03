@@ -15,9 +15,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "SVStatusHUD.h"
 @interface EMediaPlayViewController : UIViewController
 {
-    NSNumber *nowRow; //记录当前正在播放哪一行
+    
 }
 @property(nonatomic, copy) NSString* mediaFileName;
 @property(nonatomic, strong) MPMoviePlayerController* MovieController;

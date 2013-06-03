@@ -12,7 +12,7 @@
 #import "EMediaPlayViewController.h"
 @interface EToday1ViewController : UIViewController<ASIHTTPRequestDelegate>
 {
-    NSNumber *nowRow; //回调时即将播放的行数
+    
 }
 
 @property(nonatomic, weak)UIActivityIndicatorView* spin;

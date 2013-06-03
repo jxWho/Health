@@ -24,6 +24,7 @@
         self.finish = [[NSMutableArray alloc]init];
         self.questions = [[NSMutableArray alloc]init];
         self.todayExercise = [[NSMutableArray alloc]init];
+        self.questionFlag = NO;
     }
     return self;
 }

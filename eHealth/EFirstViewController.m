@@ -38,9 +38,15 @@
     return self;
 }
 
+
 - (void)logOut
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)reflesh
+{
+    [self checkUpdateAndDownloadList];
 }
 
 - (void)viewDidLoad
@@ -49,7 +55,8 @@
 	// Do any additional setup after loading the view.
     [self.navigationItem setHidesBackButton:YES];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logOut)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logOut)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(reflesh)];
     
     self.navigationItem.title = @"首页";
     self.view.backgroundColor = [UIColor whiteColor];
@@ -98,11 +105,9 @@
     
     if( [downloadFlag isEqualToString:@"first"] ){
         downloadFlag = @"second";
-        [self checkUpdate];
+        [self checkUpdateAndDownloadList];
     }
     
-    //下载今天计划
-    [self getToDoList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,6 +123,7 @@
     self.personButton.enabled = able;
     self.communicationButton.enabled = able;
     self.dataButton.enabled = able;
+    self.navigationItem.rightBarButtonItem.enabled = able;
 }
 
 
@@ -129,7 +135,7 @@
     return [path stringByAppendingPathComponent:fileName];
 }
 
-- (void)checkUpdate //更新数据库资料
+- (void)checkUpdateAndDownloadList //更新数据库资料
 {
     sqlite3* database;
     if( sqlite3_open([[self dataFilePath:dataBaseName] UTF8String],&database) != SQLITE_OK ){
@@ -158,9 +164,18 @@
     ASIHTTPRequest* r2 = [self checkQuestionUpdate:stamp[1]];
     //检查视频有无更新
     ASIHTTPRequest* r3 = [self checkVideoUpdate:stamp[2]];
+    //获取今天的任务
+    ASIHTTPRequest *r4 = [self createTodayConnect];
+    //获取锻炼状态
+    ASIHTTPRequest *r5 = [self createFinishConnect];
+    //获取问卷
+    ASIHTTPRequest *r6 = [self GetTodayQuestions];
     [self.queue addOperation:r1];
     [self.queue addOperation:r2];
     [self.queue addOperation:r3];
+    [self.queue addOperation:r4];
+    [self.queue addOperation:r5];
+    [self.queue addOperation:r6];
 }
 
 - (ASIHTTPRequest *) checkExerciseUpdate:(int)stamp
@@ -170,7 +185,7 @@
     ASIHTTPRequest* requset = [[ASIHTTPRequest alloc]initWithURL:url];
     [requset setDelegate:self];
     [requset setDidFinishSelector:@selector(checkExerciseDone:)];
-    //[requset startAsynchronous];
+//    [requset startAsynchronous];
     return requset;
 }
 
@@ -455,12 +470,9 @@
 
 #pragma mark - init Model
 
-- (void)getToDoList
-{
-    [self createConnect];
-}
 
-- (void)createConnect
+//获取今日计划
+- (ASIHTTPRequest *)createTodayConnect
 {
     NSString* pid = nil;
     if( [[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath:personFile]] ){
@@ -472,7 +484,8 @@
     ASIHTTPRequest* request = [[ASIHTTPRequest alloc]initWithURL:url];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(todayDownload:)];
-    [request startAsynchronous];
+//    [request startAsynchronous];
+    return request;
 }
 
 - (void)todayDownload:(ASIHTTPRequest *)request
@@ -490,13 +503,15 @@
             [singleton.todayExercise addObject:dataArray[i]];
             [singleton.unFinish addObject:dataArray[i]];
         }
-        
-        [self createFinishConnect];
     }
-    [self.spin removeFromSuperview];
+    if( self.spin )
+        [self.spin removeFromSuperview];
+    
+    if( [self.queue operationCount] == 0 )
+        [self disableAndEnableAllButtons:YES];
 }
 
-- (void)createFinishConnect
+- (ASIHTTPRequest *)createFinishConnect
 {
     NSString* pid = nil;
     if( [[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath:personFile]] ){
@@ -508,7 +523,8 @@
     ASIHTTPRequest* request = [[ASIHTTPRequest alloc]initWithURL:url];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(finishDownload:)];
-    [request startAsynchronous];
+//    [request startAsynchronous];
+    return request;
 }
 
 - (void)finishDownload:(ASIHTTPRequest *)request
@@ -520,24 +536,35 @@
     NSNumber *rc = [json objectForKey:@"rc"];
     if( [rc isEqual:@0] ){
         EPatientModel *singleton = [EPatientModel sharedEPatientModel];
+        
+        //改变当天的已完成、未完成
         singleton.finish = [[NSMutableArray alloc]init];
         for( int i = 0; i < [dataArray count]; i++ ){
             [singleton.finish addObject:dataArray[i]];
             for( int j = 0; j < [singleton.unFinish count]; j++ ){
                 NSString *eid = [singleton.unFinish[j] objectForKey:@"eid"];
                 if( [eid isEqualToString:dataArray[i]] ){
-                    [singleton.unFinish removeObjectAtIndex:j];
+                    
+//                        [singleton.unFinish removeObjectAtIndex:j];
                     break;
                 }
             }
         }
-        [self GetTodayQuestions];
+        
+        //是否填写了问卷
+        NSNumber *feedbacked = [json objectForKey:@"feedbacked"];
+        singleton.questionFlag = [feedbacked intValue];
+        
     }
-    [self.spin removeFromSuperview];
+    if( self.spin )
+        [self.spin removeFromSuperview];
+    
+    if( [self.queue operationCount] == 0 )
+        [self disableAndEnableAllButtons:YES];
 }
 
 
-- (void)GetTodayQuestions
+- (ASIHTTPRequest *)GetTodayQuestions
 {
     NSString* pid = nil;
     if( [[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath:personFile]] ){
@@ -548,8 +575,8 @@
     NSURL* url = [NSURL URLWithString:add];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate: self];
-    [request startAsynchronous];
     [request setDidFinishSelector:@selector(questionsFinish:)];
+    return request;
 }
 
 - (void)questionsFinish:(ASIHTTPRequest *)request
@@ -570,9 +597,11 @@
         for (int i = 0 ; i < [singleton.questions count]; i++)
             NSLog(@"%@",singleton.questions[i]);
     }
+    if( self.spin )
+        [self.spin removeFromSuperview];
     
-    if( [self spin] )
-      [ self.spin removeFromSuperview];
+    if( [self.queue operationCount] == 0 )
+        [self disableAndEnableAllButtons:YES];
 }
 
 - (void)checkAndDeleteTodayNoti

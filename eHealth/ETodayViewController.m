@@ -51,9 +51,10 @@
 - (void)goToQuestion
 {
     EPatientModel *singleton = [EPatientModel sharedEPatientModel];
-    
-    EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
-    [self.navigationController pushViewController:EQV animated:YES];
+    if( singleton.questionFlag == NO ){
+        EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
+        [self.navigationController pushViewController:EQV animated:YES];
+    }
     /*
     if( [singleton.unFinish count] == 0 ){
         EQuestionViewController *EQV = [[EQuestionViewController alloc]init];

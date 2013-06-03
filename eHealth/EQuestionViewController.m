@@ -211,8 +211,9 @@
         NSArray *array = [cellText componentsSeparatedByString:@":"];
         if( [array[1] intValue] == 0 ){
             //未填写完成
-            return;
+            
             [SVStatusHUD showWithImage:nil status:@"你还没有填写好问卷~"];
+            return;
         }
     }
     //填写完成了，提交
@@ -235,12 +236,13 @@
     NSMutableArray *records = [[NSMutableArray alloc]init];
     NSArray *cells = [_Question visibleCells];
     for( int i = 0; i < [_questions count]; i++ ){
-        NSString *qid = [_questions[i] objectForKey:@"qid"];
+        NSNumber *qid = [_questions[i] objectForKey:@"qid"];
+        NSString *qidString = [NSString stringWithFormat:@"%@",qid];
         NSString *text = ((UITableViewCell *)cells[i]).textLabel.text;
         NSArray *tempArrary = [text componentsSeparatedByString:@":"];
         int score = [tempArrary[1] intValue];
         NSString *scoreString = [NSString stringWithFormat:@"%d",score];
-        NSDictionary *tempDic = [NSDictionary dictionaryWithObjectsAndKeys:scoreString,@"score",qid,@"qid", nil];
+        NSDictionary *tempDic = [NSDictionary dictionaryWithObjectsAndKeys:scoreString,@"score",qidString,@"qid", nil];
         [records addObject:tempDic];
     }
     NSDate *date = [NSDate date];
@@ -248,7 +250,8 @@
     [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *dateString = [formatter stringFromDate:date];
     NSNumber *count = [NSNumber numberWithInt:[records count]];
-    NSDictionary *sendDic = [NSDictionary dictionaryWithObjectsAndKeys:did,@"doctorID",records,@"records",dateString,@"date",pid,@"patientID",count,@"count", nil];
+    NSString *countString = [NSString stringWithFormat:@"%@",count];
+    NSDictionary *sendDic = [NSDictionary dictionaryWithObjectsAndKeys:did,@"doctorID",records,@"records",dateString,@"date",pid,@"patientID",countString,@"count", nil];
 
     NSData *questionData = nil;
     if( [NSJSONSerialization isValidJSONObject:sendDic] ){
@@ -257,11 +260,13 @@
         
     }
     NSLog(@"json is %@",questionData);
+    NSString *dataString = [[NSString alloc]initWithData:questionData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",dataString);
     NSString *add = @"http://myehealth.sinaapp.com/API/addFeedbackRecord";
     NSURL *url = [NSURL URLWithString:add];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc]initWithURL:url];
     [request setDelegate:self];
-    [request setPostValue:questionData forKey:@"result"];
+    [request setPostValue:dataString forKey:@"result"];
     [request startAsynchronous];
 }
 
@@ -306,10 +311,15 @@
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     NSNumber *rc = [json objectForKey:@"rc"];
     NSLog(@"%@",json);
+    EPatientModel *singleton = [EPatientModel sharedEPatientModel];
     if( [rc isEqual:@0] ){
         [self.navigationController popViewControllerAnimated:YES];
+        singleton.questionFlag = YES;
     }else{
         //提交失败...
+        [SVStatusHUD showWithImage:nil status:@"提交失败，请重新提交~"];
+        singleton.questionFlag = NO;
+        
     }
 }
 

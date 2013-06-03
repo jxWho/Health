@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "EFirstViewController.h"
 #import <sqlite3.h>
+#import "ASIHTTPRequest+checkStatus.h"
 
 
 @interface ELoginViewController : UIViewController

@@ -76,6 +76,18 @@
     [self.view addSubview:self.Login];
     
     [self createIfNoDataBase];
+    
+    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:@"2",@"userName",@"2",@"password", nil];
+    [[NSUserDefaults standardUserDefaults]registerDefaults:defaults];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *uName = [userDefaults objectForKey:@"userName"];
+    NSString *pWord = [userDefaults objectForKey:@"password"];
+    
+    NSLog(@"UP: %@ %@",uName,pWord);
+    
+    self.userName.text = uName;
+    self.userPassword.text = pWord;
    
 }
 
@@ -204,8 +216,11 @@
     NSString* pass =  [self md5HexDigest:self.userPassword.text];
     [request setPostValue:name forKey:@"pid"];
     [request setPostValue:pass forKey:@"patientPassword"];
-    [request startAsynchronous];
-    
+    BOOL netWorkOk = [ASIHTTPRequest isNetworkAvaible];
+    if( netWorkOk )
+        [request startAsynchronous];
+    else
+        [SVStatusHUD showWithImage:nil status:@"没有网络~~"];
     
 }
 
@@ -219,6 +234,7 @@
 - (void)saveToLocal:(NSDictionary*) json
 {
     NSInteger tot = [json count];
+
     NSMutableArray* temp = [[NSMutableArray alloc]init];
     [temp addObject:[json objectForKey:@"patientGender"]];
     [temp addObject:[json objectForKey:@"patientName"]];
@@ -253,6 +269,7 @@
     [self.spin setBounds:CGRectMake(0, 0, 160, 100)];
     [self.view addSubview:self.spin];
     [self.spin startAnimating];
+    
     [self.spin becomeFirstResponder];
 }
 
@@ -264,11 +281,16 @@
     NSError* error = [[NSError alloc]init];
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     NSNumber *rc = [json objectForKey:@"rc"];
+    NSLog(@"%@",rc);
     if( [rc isEqual:@0] ){
         [self saveToLocal:json];
         EFirstViewController* nextVC = [[EFirstViewController alloc]init];
         [nextVC setValue:downloadFlag forKey:@"downloadFlag"];
         [self.navigationController pushViewController:nextVC animated:YES];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:self.userPassword.text forKey:@"userName"];
+        [defaults setValue:self.userPassword.text forKey:@"password"];
         
     }else{
         //密码或者用户名错误

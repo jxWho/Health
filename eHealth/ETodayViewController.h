@@ -10,6 +10,6 @@
 #import "EToday1ViewController.h"
 #import "EToday2ViewController.h"
 #import "EQuestionViewController.h"
-@interface ETodayViewController : UITabBarController
+@interface ETodayViewController : UITabBarController<UITabBarControllerDelegate>
 
 @end

@@ -13,6 +13,6 @@
 @property(nonatomic, weak) UIImageView* imageView;
 @property(nonatomic, weak) UITextView* textView;
 @property(nonatomic, copy) NSString* eid;
-
+@property(nonatomic, weak) UINavigationBar *NVBar;
 
 @end
