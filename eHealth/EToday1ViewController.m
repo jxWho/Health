@@ -34,11 +34,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-
+    CGFloat navHeight = self.navigationController.navigationBar.bounds.size.height;
+    
     self.view.backgroundColor = [UIColor whiteColor];
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
-    UITableView* listView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+    UITableView* listView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height - 49 - navHeight)];
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setTag:1];
@@ -182,6 +183,9 @@
         EPatientModel *singleton = [EPatientModel sharedEPatientModel];
         NSDictionary *firstExercise = singleton.unFinish[0];
         [singleton.finish addObject:firstExercise];
+        
+        //mark
+//        [singleton.unFinish removeObjectAtIndex:0];
         
     }
     [fatherView reloadData];

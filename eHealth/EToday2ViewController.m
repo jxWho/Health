@@ -36,8 +36,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    UITableView* listView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+
+    CGFloat navHeight = self.navigationController.navigationBar.bounds.size.height;
+
+    UITableView* listView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 49 - navHeight)];
     [listView setDataSource:self];
     [listView setDelegate:self];
     [listView setTag:1];

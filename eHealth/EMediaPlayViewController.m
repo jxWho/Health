@@ -71,6 +71,8 @@
         
         NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
         [center addObserver:self selector:@selector(finish) name:MPMoviePlayerPlaybackDidFinishNotification object:self.MovieController];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.MovieController];
+        self.MovieController.shouldAutoplay = YES;
     }
     UILabel* l = [[UILabel alloc]initWithFrame:CGRectMake(8, height * 0.5, width, 30)];
     int c = [self.count intValue];
@@ -98,13 +100,13 @@
     TF.font = [UIFont boldSystemFontOfSize:18];
     self.textField = TF;
     [self.view addSubview:TF];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.MovieController];
+        
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.MovieController stop];
+    [self.MovieController pause];
     [self.MovieController.view removeFromSuperview];
 
 }
@@ -136,7 +138,11 @@
     if( cnt > 0 ){
         self.count = [NSString stringWithFormat:@"%d",cnt];
         self.label.text = [NSString stringWithFormat:@"%@%d",@"剩余次数:",cnt];
+        
+        self.MovieController.shouldAutoplay = YES;
+        [self.MovieController pause];
         [self.MovieController play];
+        
         
         int tempTot = [totPlay intValue];
         tempTot ++;
@@ -274,6 +280,8 @@
         self.MovieController.controlStyle = MPMovieControlStyleNone;
         [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
         [self.view addSubview:self.MovieController.view];
+        [self.MovieController pause];
+        [self.MovieController prepareToPlay];
         [self.MovieController play];
         movieStartTime = [NSDate date];
         totPlay = @1;
@@ -312,6 +320,7 @@
 
 - (void)uploadDataWherePid:(NSNumber *)pid Did:(NSNumber *)did Eid:(NSNumber *)eid Count:(NSNumber *)Count ExerciseTime:(NSTimeInterval)exerciseTime Date:(NSString *)date
 {
+    EPatientModel *singleton = [EPatientModel sharedEPatientModel];
     NSString *add = @"http://myehealth.sinaapp.com/API/addPlanRecord";
     NSURL *url = [NSURL URLWithString:add];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc]initWithURL:url];
@@ -323,6 +332,8 @@
     [request setPostValue:Count forKey:@"count"];
     [request setPostValue:[NSNumber numberWithDouble: exerciseTime] forKey:@"exerciseTime"];
     [request setPostValue:date forKey:@"date"];
+    if( [singleton.unFinish  count] == 1  )
+        [request setPostValue:[NSNumber numberWithInt:1] forKey:@"isLast"];
     [request startAsynchronous];
 }
 
