@@ -141,6 +141,7 @@
         
         self.MovieController.shouldAutoplay = YES;
         [self.MovieController pause];
+        [self.MovieController prepareToPlay];
         [self.MovieController play];
         
         
@@ -274,15 +275,17 @@
     NSLog(@"%@ sdfsdf",kk);
     NSLog(@"test");
     if( url ){
-        [self.MovieController.view removeFromSuperview];
+//        [self.MovieController.view removeFromSuperview];
         self.MovieController = nil;
         self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
         self.MovieController.controlStyle = MPMovieControlStyleNone;
         [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
-        [self.view addSubview:self.MovieController.view];
+//        [self.view addSubview:self.MovieController.view];
+        
         [self.MovieController pause];
         [self.MovieController prepareToPlay];
         [self.MovieController play];
+        
         movieStartTime = [NSDate date];
         totPlay = @1;
         /*
@@ -361,6 +364,7 @@
         [delegate goToNext];
         
         if( [singleton.unFinish count] > 0 ){
+            NSLog(@"%d",[singleton.unFinish count]);
             [self reloadThisView];
         }else{
             [self.navigationController popViewControllerAnimated:YES];

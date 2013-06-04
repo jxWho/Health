@@ -501,6 +501,7 @@
         singleton.unFinish = [[NSMutableArray alloc]init];
         for( int i = 0; i < [dataArray count]; i++ ){
             [singleton.todayExercise addObject:dataArray[i]];
+            if( i == [dataArray count] - 1 )
             [singleton.unFinish addObject:dataArray[i]];
         }
     }
@@ -544,8 +545,8 @@
             for( int j = 0; j < [singleton.unFinish count]; j++ ){
                 NSString *eid = [singleton.unFinish[j] objectForKey:@"eid"];
                 if( [eid isEqualToString:dataArray[i]] ){
-                    
-//                        [singleton.unFinish removeObjectAtIndex:j];
+
+                        //[singleton.unFinish removeObjectAtIndex:j];
                     break;
                 }
             }
