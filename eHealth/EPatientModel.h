@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define FINISHNOTIFICATION @"finishnotification"
+
 @interface EPatientModel : NSObject
 {
     

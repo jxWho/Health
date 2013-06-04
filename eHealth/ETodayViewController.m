@@ -30,6 +30,7 @@
 	// Do any additional setup after loading the view.
     self.navigationItem.title = @"今日计划";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"填写问卷" style:UIBarButtonItemStylePlain target:self action:@selector(goToQuestion)];
+    EPatientModel *singleton = [EPatientModel sharedEPatientModel];
     
     
     EToday1ViewController* t1VC = [[EToday1ViewController alloc]init];
@@ -37,6 +38,11 @@
     t1VC.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"未完成" image:nil tag:0];
     t2VC.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"已完成" image:nil tag:1];
     self.viewControllers = [NSArray arrayWithObjects:t1VC,t2VC, nil];
+    
+    if( [singleton.unFinish count] > 0 )
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exerciseFinish) name:FINISHNOTIFICATION object:nil];
 }
 
 
@@ -63,6 +69,16 @@
         [SVStatusHUD showWithImage:nil status:@"请先完成锻炼"];
     }
      */
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:FINISHNOTIFICATION object:nil];
+}
+
+- (void)exerciseFinish
+{
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 @end

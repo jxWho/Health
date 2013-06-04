@@ -12,6 +12,44 @@
 @implementation EAppDelegate
 
 
+- (void)exerciseFinish
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc]init];
+    [formatter1 setDateFormat:@"MM-dd"];
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [formatter stringFromDate:date];
+    dateString = [NSString stringWithFormat:@"%@-%@-%@-%@",dateString,@"00",@"00",@"00"];
+    [formatter setDateFormat:@"yyyy-MM-dd-HH-mm-ss"];
+    date = [formatter dateFromString:dateString];
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    timeInterval += 24 * 3600;
+    date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+    
+    dateString = [formatter1 stringFromDate:date];
+
+
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    NSArray *array = application.scheduledLocalNotifications;
+    NSInteger cnt = [array count];
+    
+    for( int i = 0; i < cnt; i++ )
+        for( int j = 0; j < [array count]; j++ ){
+            UILocalNotification *noti = array[j];
+            NSDictionary *dic = noti.userInfo;
+            NSString *userDateString = [dic objectForKey:@"date"];
+            if( [userDateString isEqualToString:dateString] == NO ){
+                [application cancelLocalNotification:noti];
+                break;
+            }
+        }
+    
+}
+
 - (void)addNoti
 {
     UIApplication *app  = [UIApplication sharedApplication];
@@ -114,6 +152,9 @@
         [[UIApplication sharedApplication] cancelLocalNotification:localNoti];
         NSLog(@"delete one");
     }
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exerciseFinish) name:FINISHNOTIFICATION object:nil];
+    
     return YES;
 }
 
@@ -164,7 +205,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"2");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

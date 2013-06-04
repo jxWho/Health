@@ -223,6 +223,7 @@
     }else{
         NSLog(@"no such cell");
         //进入问卷
+        [[NSNotificationCenter defaultCenter]postNotificationName:FINISHNOTIFICATION object:nil];
     }
 }
 
