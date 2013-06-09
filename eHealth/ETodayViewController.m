@@ -32,6 +32,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"填写问卷" style:UIBarButtonItemStylePlain target:self action:@selector(goToQuestion)];
     EPatientModel *singleton = [EPatientModel sharedEPatientModel];
     
+    [self setDelegate:self];
     
     EToday1ViewController* t1VC = [[EToday1ViewController alloc]init];
     EToday2ViewController* t2VC = [[EToday2ViewController alloc]init];
@@ -61,14 +62,7 @@
         EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
         [self.navigationController pushViewController:EQV animated:YES];
     }
-    /*
-    if( [singleton.unFinish count] == 0 ){
-        EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
-        [self.navigationController pushViewController:EQV animated:YES];
-    }else{
-        [SVStatusHUD showWithImage:nil status:@"请先完成锻炼"];
-    }
-     */
+    
 }
 
 - (void)dealloc
@@ -79,6 +73,18 @@
 - (void)exerciseFinish
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
+#pragma UITabController Method Delegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"acctive!");
+    if( [viewController class] == [EToday2ViewController class] ){
+        UITableView *tView = (UITableView *)viewController.view;
+        [tView reloadData];
+        NSLog(@"reload View");
+        
+    }
 }
 
 @end

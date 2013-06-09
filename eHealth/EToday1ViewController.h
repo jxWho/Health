@@ -18,6 +18,6 @@
 @property(nonatomic, weak)UIActivityIndicatorView* spin;
 
 //modal
-@property(nonatomic, strong)NSMutableArray* todayList;
+@property(nonatomic, weak)NSMutableArray* todayList;
 @property(nonatomic, strong)EMediaPlayViewController* EMVP;
 @end

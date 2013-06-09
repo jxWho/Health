@@ -16,7 +16,7 @@
 #import "EActionSheetDatePicker.h"
 #import "EAbstarctActionSheetPicker.h"
 #import "NSDate+TCUtils.h"
-#import "EPatientModel.h";
+#import "EPatientModel.h"
 
 @interface ERecureViewController ()<ASIHTTPRequestDelegate>
 
@@ -102,14 +102,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+
     // Return the number of sections.
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
     if(section == 0)
         return 1;
@@ -188,7 +188,7 @@
     self.selectedDate = date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"HH:mm"];
-    NSLog([formatter stringFromDate:date]);
+
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:[formatter stringFromDate:date] forKey:@"alertTime"];
@@ -269,7 +269,7 @@
         [nextVC setValue:eid forKey:@"eid"];
 //        [self.navigationController presentViewController:nextVC animated:YES completion:^{}];
         UINavigationController *nv = [[UINavigationController alloc]initWithRootViewController:nextVC];
-        [self.navigationController presentModalViewController:nv animated:YES];
+        [self.navigationController presentViewController:nv animated:YES completion:^{}];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -306,7 +306,7 @@
     NSData* data = [request responseData];
     NSError* error = [[NSError alloc]init];
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    NSMutableArray* array = [[NSMutableArray alloc]init];
+
     NSArray* pArray = [json objectForKey:@"plans"];
     int cnt = [pArray count];
     for( int i = 0; i < cnt; i++ )
