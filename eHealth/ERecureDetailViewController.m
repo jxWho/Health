@@ -38,19 +38,11 @@
     
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"back" style:UIBarButtonItemStyleDone target:self action:@selector(Go)];
-    
-    /*
-    UINavigationBar *bb =  [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44)];
-    self.NVBar = bb;
-
-    [self.view addSubview:bb];
-     */
 
     
     CGFloat width = self.view.bounds.size.width;
-    NSLog(self.eid);
     
-    UITextView* TV = [[UITextView alloc]initWithFrame:CGRectMake(30, 30, width - 60, 80)];
+    UITextView* TV = [[UITextView alloc]initWithFrame:CGRectMake(30, 5, width - 60, 80)];
     sqlite3* database;
     if( sqlite3_open([[self dataFilePath:databaseName] UTF8String], &database) != SQLITE_OK ){
         sqlite3_close(database);
@@ -65,7 +57,7 @@
         
         sqlite3_finalize(statement);
     }
-    TV.font = [UIFont boldSystemFontOfSize:20];
+    TV.font = [UIFont boldSystemFontOfSize:15];
     self.textView = TV;
     TV.editable = NO;
     [self.view addSubview:self.textView];
@@ -77,7 +69,7 @@
         UIImage* i = [UIImage imageWithContentsOfFile:pictruePath];
         UIImageView* iView = [[UIImageView alloc]initWithImage:i];
         CGFloat pWidth = i.size.width * 0.7;
-        [iView setFrame:CGRectMake((width - pWidth)/2, 30 + 80, i.size.width*0.7, i.size.height*0.7)];
+        [iView setFrame:CGRectMake((width - pWidth)/2, 30 + 80 , i.size.width*0.7, i.size.height*0.7)];
         self.imageView = iView;
         [self.view addSubview:self.imageView];
     }

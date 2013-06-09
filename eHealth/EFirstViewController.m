@@ -501,7 +501,7 @@
         singleton.unFinish = [[NSMutableArray alloc]init];
         for( int i = 0; i < [dataArray count]; i++ ){
             [singleton.todayExercise addObject:dataArray[i]];
-            if( i == [dataArray count] - 1 )
+//            if( i == [dataArray count] - 1 )
             [singleton.unFinish addObject:dataArray[i]];
         }
     }

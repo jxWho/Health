@@ -53,13 +53,17 @@
     countBackUp = [self.count intValue];
     
     NSURL* url = [NSURL fileURLWithPath:self.mediaFileName];
+    
     NSString* kk;
     if( [[NSFileManager defaultManager] fileExistsAtPath:self.mediaFileName] )
         kk = @"Exist";
-    else
+    else{
         kk = @"nonono";
+        url = NULL;
+    }
     NSLog(@"%@ sdfsdf",kk);
     NSLog(@"test");
+    
     if( url ){
         self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
         self.MovieController.controlStyle = MPMovieControlStyleNone;
@@ -71,9 +75,18 @@
         
         NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
         [center addObserver:self selector:@selector(finish) name:MPMoviePlayerPlaybackDidFinishNotification object:self.MovieController];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.MovieController];
+        
         self.MovieController.shouldAutoplay = YES;
+    }else{
+        
+//        [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:MPMoviePlayerPlaybackDidFinishNotification object:nil]];
+        self.count = [NSString stringWithFormat:@"%d",0];
+        [SVStatusHUD showWithImage:nil status:@"视频损坏~~~"];
+        [self finish];
     }
+    
     UILabel* l = [[UILabel alloc]initWithFrame:CGRectMake(8, height * 0.5, width, 30)];
     int c = [self.count intValue];
     l.text = [NSString stringWithFormat:@"%@%d",@"剩余次数:",c];
@@ -140,8 +153,8 @@
         self.label.text = [NSString stringWithFormat:@"%@%d",@"剩余次数:",cnt];
         
         self.MovieController.shouldAutoplay = YES;
-        [self.MovieController pause];
-        [self.MovieController prepareToPlay];
+
+
         [self.MovieController play];
         
         
@@ -270,30 +283,29 @@
     NSString* kk;
     if( [[NSFileManager defaultManager] fileExistsAtPath:self.mediaFileName] )
         kk = @"Exist";
-    else
+    else{
         kk = @"nonono";
+    }
     NSLog(@"%@ sdfsdf",kk);
     NSLog(@"test");
     if( url ){
-//        [self.MovieController.view removeFromSuperview];
-        self.MovieController = nil;
+
+        [self.MovieController.view removeFromSuperview];
         self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
         self.MovieController.controlStyle = MPMovieControlStyleNone;
         [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
-//        [self.view addSubview:self.MovieController.view];
+        [self.view addSubview:self.MovieController.view];
         
-        [self.MovieController pause];
-        [self.MovieController prepareToPlay];
         [self.MovieController play];
         
         movieStartTime = [NSDate date];
         totPlay = @1;
-        /*
-//        [self.MovieController.view removeFromSuperview];
-        self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
-//        [self.view addSubview:self.MovieController.view];
-        [self.MovieController play];
-         */
+
+    }else{
+//        [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:MPMoviePlayerPlaybackDidFinishNotification object:nil]];
+        self.count = [NSString stringWithFormat:@"%d",0];
+        [SVStatusHUD showWithImage:nil status:@"视频损坏~~~"];
+        [self finish];
     }
     
     int c = [self.count intValue];

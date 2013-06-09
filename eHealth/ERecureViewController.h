@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <sqlite3.h>
-#import "ERecureDetailViewController.h";
+#import "ERecureDetailViewController.h"
 @interface ERecureViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, weak)UIActivityIndicatorView* spin;
