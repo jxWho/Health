@@ -236,7 +236,7 @@
 
 - (void)saveToLocal:(NSDictionary*) json
 {
-    NSInteger tot = [json count];
+
 
     NSMutableArray* temp = [[NSMutableArray alloc]init];
     [temp addObject:[json objectForKey:@"patientGender"]];
