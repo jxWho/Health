@@ -170,7 +170,7 @@
 - (void) moveVideos
 {
     //,@"video5",@"video6",@"video7",@"video8"
-    NSArray *videos = [[NSArray alloc]initWithObjects:@"video1r",@"video1l",@"video2",@"video3r",@"video3l",@"video4",@"video9",@"video10r",@"video10l",@"video11",@"video12r",@"video12l",@"video13r",@"video13l",@"video14",@"video15r",@"video15l",@"video16b",@"video16f",@"video17r",@"video17l",@"video18r",@"video18l",@"video19",@"video20",@"testVideo2", nil];
+    NSArray *videos = [[NSArray alloc]initWithObjects:@"video1r",@"video1l",@"video2",@"video3r",@"video3l",@"video4",@"video9",@"video10r",@"video10l",@"video11",@"video12r",@"video12l",@"video13r",@"video13l",@"video14",@"video15r",@"video15l",@"video16b",@"video16f",@"video17r",@"video17l",@"video18r",@"video18l",@"video19",@"video20", nil];
     
     for( int i = 0; i < [videos count]; i++ ){
         NSString *video = [[NSBundle mainBundle]pathForResource:videos[i] ofType:@"mp4"];

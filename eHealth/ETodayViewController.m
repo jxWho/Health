@@ -84,6 +84,10 @@
         [tView reloadData];
         NSLog(@"reload View");
         
+    }else{
+        if( [EPatientModel sharedEPatientModel].questionFlag == NO ){
+            [SVStatusHUD showWithImage:nil status:@"记得填写问卷哦~"];
+        }
     }
 }
 

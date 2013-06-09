@@ -276,7 +276,7 @@
     }
     NSNumber *eidNumber = [NSNumber numberWithInt:[self.eid intValue]];
     [self uploadDataWherePid:pid Did:did Eid:eidNumber Count:totPlay ExerciseTime:howLong Date:date];
-    
+    NSLog(@"exerciseTime is %f",howLong);
     
 }
 
@@ -333,8 +333,10 @@
     [request setPostValue:Count forKey:@"count"];
     [request setPostValue:[NSNumber numberWithDouble: exerciseTime] forKey:@"exerciseTime"];
     [request setPostValue:date forKey:@"date"];
-    if( [singleton.unFinish  count] == 1  )
+    if( [singleton.unFinish  count] == 1  ){
         [request setPostValue:[NSNumber numberWithInt:1] forKey:@"isLast"];
+        NSLog(@"last");
+    }
     [request startAsynchronous];
 }
 

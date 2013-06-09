@@ -185,8 +185,9 @@
     [detailViewController setValue:selectedRow forKey:@"selectedRow"];
     selectedPath = indexPath;
     
-    [self.navigationController presentModalViewController:detailViewController animated:YES];
-//    [self.navigationController pushViewController:detailViewController animated:YES];
+//    [self.navigationController presentModalViewController:detailViewController animated:YES];
+    [self.navigationController presentViewController:detailViewController animated:YES completion:^{}];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
