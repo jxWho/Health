@@ -176,7 +176,7 @@
     if( [self.todayList count] > 0 ){
         EPatientModel *singleton = [EPatientModel sharedEPatientModel];
         NSDictionary *firstExercise = singleton.unFinish[0];
-        [singleton.finish addObject:firstExercise];
+        [singleton.finish addObject:[firstExercise objectForKey:@"eid"]];
         [self.todayList removeObjectAtIndex:0];
         
     }

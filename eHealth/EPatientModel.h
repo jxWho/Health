@@ -14,8 +14,8 @@
 {
     
 }
-@property (nonatomic, strong) NSMutableArray *unFinish;
-@property (nonatomic, strong) NSMutableArray *finish;
+@property (nonatomic, strong) NSMutableArray *unFinish;     //eid and count
+@property (nonatomic, strong) NSMutableArray *finish;       //eid
 @property (nonatomic, strong) NSMutableArray *questions;
 @property (nonatomic, strong) NSMutableArray *todayExercise;
 @property (nonatomic) BOOL questionFlag;  //标志是否完成问卷

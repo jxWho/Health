@@ -99,6 +99,7 @@
     sqlite3_close(database);
     cell.textLabel.text = title;
     cell.detailTextLabel.text = detail;
+    NSLog(@"eid is %@ and titile is %@",eid, title);
     return cell;
 }
 
