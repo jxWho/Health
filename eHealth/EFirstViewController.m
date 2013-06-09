@@ -484,7 +484,7 @@
     ASIHTTPRequest* request = [[ASIHTTPRequest alloc]initWithURL:url];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(todayDownload:)];
-//    [request startAsynchronous];
+
     return request;
 }
 
@@ -501,7 +501,7 @@
         singleton.unFinish = [[NSMutableArray alloc]init];
         for( int i = 0; i < [dataArray count]; i++ ){
             [singleton.todayExercise addObject:dataArray[i]];
-//            if( i == [dataArray count] - 1 )
+
             [singleton.unFinish addObject:dataArray[i]];
         }
     }
@@ -524,7 +524,7 @@
     ASIHTTPRequest* request = [[ASIHTTPRequest alloc]initWithURL:url];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(finishDownload:)];
-//    [request startAsynchronous];
+
     return request;
 }
 
@@ -546,7 +546,7 @@
                 NSString *eid = [singleton.unFinish[j] objectForKey:@"eid"];
                 if( [eid isEqualToString:dataArray[i]] ){
 
-                        //[singleton.unFinish removeObjectAtIndex:j];
+                    [singleton.unFinish removeObjectAtIndex:j];
                     break;
                 }
             }
