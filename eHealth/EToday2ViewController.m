@@ -36,33 +36,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-
-    CGFloat navHeight = self.navigationController.navigationBar.bounds.size.height;
-
-    UITableView* listView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 49 - navHeight)];
-    [listView setDataSource:self];
-    [listView setDelegate:self];
-    [listView setTag:1];
-    [self.view addSubview:listView];
+    self.Finished = [EPatientModel sharedEPatientModel].finish;
 }
-
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:NO];
-    
-    
-    self.Finished = [EPatientModel sharedEPatientModel].finish;
-    
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:NO];
-    
-    self.Finished = nil;
+    [super viewWillAppear:YES];
+    [self.ListView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,26 +57,6 @@
     return [path stringByAppendingPathComponent:fileName];
 }
 
-- (void)createConnectUnfinish
-{
-    NSString* pid = nil;
-    if( [[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath:personFile]] ){
-        NSArray* tempArray = [NSArray arrayWithContentsOfFile:[self dataFilePath:personFile]];
-        pid = tempArray[2];
-    }
-    NSString* add =[NSString stringWithFormat:@"%@%@",@"http://myehealth.sinaapp.com/API/getPlanStatus?pid=",pid];
-    NSURL* url = [NSURL URLWithString:add];
-    ASIHTTPRequest* request = [[ASIHTTPRequest alloc]initWithURL:url];
-    [request setDelegate:self];
-    [request setDidFinishSelector:@selector(finishDownload:)];
-    [request startAsynchronous];
-}
-
-- (void)reloadListData
-{
-   UITableView* tV = (UITableView *)[self.view viewWithTag:1];
-    [tV reloadData];
-}
 
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
@@ -149,51 +109,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - ASIHttpRequest Method
-- (void)requestStarted:(ASIHTTPRequest *)request
-{
-    UIActivityIndicatorView* t  = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [t setCenter:self.view.center];
-    [t setBackgroundColor:[UIColor blackColor]];
-    [t setAlpha:0.8];
-    t.layer.cornerRadius = 8;
-    t.layer.masksToBounds = YES;
-    self.spin = t;
-    
-    [self.spin setFrame:CGRectZero];
-    CGRect orientationFrame = [UIScreen mainScreen].bounds;
-    CGFloat activeHeight = orientationFrame.size.height;
-    CGFloat posY = floor(activeHeight*0.39);
-    CGFloat posX = orientationFrame.size.width/2;
-    CGPoint newCenter;
-    newCenter = CGPointMake(posX, posY);
-    [self.spin setCenter:newCenter];
-    
-    [self.spin setBounds:CGRectMake(0, 0, 160, 100)];
-    [self.view addSubview:self.spin];
-    [self.spin startAnimating];
-    [self.spin becomeFirstResponder];}
 
-- (void)finishDownload:(ASIHTTPRequest *)request
-{
-    NSData* data = [request responseData];
-    NSError* error = [[NSError alloc]init];
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    NSLog(@"%@",json);
-    NSArray* dataArray = [json objectForKey:@"finished"];
-    for (int i = 0; i < [dataArray count]; i++) {
-        [self.Finished addObject:dataArray[i]];
-    }
-    UITableView *tView = (UITableView *)[self.view viewWithTag:1];
-    [tView reloadData];
-    [self.spin removeFromSuperview];
-}
 
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    [SVStatusHUD showWithImage:nil status:@"当前网络有问题~"];
-    if( self.spin )
-        [self.spin removeFromSuperview];
-}
 
 @end

@@ -173,20 +173,11 @@
   
     UITableView* fatherView = (UITableView *)[self.view viewWithTag:1];
     
-     
-    /*
-    UITableViewCell* cell = [fatherView cellForRowAtIndexPath:iPath];
-     */
     if( [self.todayList count] > 0 ){
-        
         EPatientModel *singleton = [EPatientModel sharedEPatientModel];
         NSDictionary *firstExercise = singleton.unFinish[0];
         [singleton.finish addObject:firstExercise];
         [self.todayList removeObjectAtIndex:0];
-
-        
-        //mark
-//        [singleton.unFinish removeObjectAtIndex:0];
         
     }
     [fatherView reloadData];

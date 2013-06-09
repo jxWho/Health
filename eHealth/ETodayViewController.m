@@ -61,14 +61,7 @@
         EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
         [self.navigationController pushViewController:EQV animated:YES];
     }
-    /*
-    if( [singleton.unFinish count] == 0 ){
-        EQuestionViewController *EQV = [[EQuestionViewController alloc]init];
-        [self.navigationController pushViewController:EQV animated:YES];
-    }else{
-        [SVStatusHUD showWithImage:nil status:@"请先完成锻炼"];
-    }
-     */
+    
 }
 
 - (void)dealloc
@@ -80,5 +73,7 @@
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
+
+
 
 @end
