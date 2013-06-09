@@ -10,7 +10,7 @@
 
 @interface EToday2ViewController : UITableViewController
 
-@property(nonatomic, strong) NSMutableArray* Finished;
+@property(nonatomic, weak) NSMutableArray* Finished;
 @property(nonatomic, weak) UIActivityIndicatorView* spin;
 @property(nonatomic, weak) UITableView *ListView;
 @end

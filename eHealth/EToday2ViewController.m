@@ -16,7 +16,7 @@
 #import "EPatientModel.h"
 
 
-@interface EToday2ViewController ()<UITableViewDataSource,UITableViewDelegate, ASIHTTPRequestDelegate>
+@interface EToday2ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
 
@@ -42,7 +42,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [self.ListView reloadData];
+    [(UITableView *)self.view reloadData];
 }
 
 - (void)didReceiveMemoryWarning
