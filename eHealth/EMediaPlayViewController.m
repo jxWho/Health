@@ -11,8 +11,10 @@
 #import "EPatientModel.h"
 #import <sqlite3.h>
 #import "EFile.h"
+#import <QuartzCore/QuartzCore.h>
 #define dataBaseName   @"ehealth.db"
 #define pictureRate    0.7
+
 
 @interface EMediaPlayViewController ()<ASIHTTPRequestDelegate>
 {
@@ -106,7 +108,6 @@
     self.MovieController.shouldAutoplay = YES;
     [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
     [self.view addSubview:self.MovieController.view];
-    movieStartTime = [NSDate date];
     totPlay = @1;
     
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
@@ -117,7 +118,8 @@
     [center addObserver:self selector:@selector(playbackStateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.MovieController];
     
     if( url ){
-        [self.MovieController play];
+//        [self.MovieController play];
+        [self previewCreate];
     }else{
 //        [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:MPMoviePlayerPlaybackDidFinishNotification object:nil]];
         self.count = [NSString stringWithFormat:@"%d",0];
@@ -177,27 +179,9 @@
         bgView = IV1;
         [self.view addSubview:bgView];
         
-        UILabel *tempLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 30)];
-        tempLabel.text = @"下一节的动作为:";
-        self.breakTitle = tempLabel;
-        [self.view addSubview:self.breakTitle];
-        
-        //修改为下一张图片
-        EToday1ViewController *fatherETV = (EToday1ViewController *)self.delegate;
         NSString *path = nil;
-        
-        float rate = pictureRate;
-        
-        if( [fatherETV.todayList count] <= 1 ){
-            path = [[NSBundle mainBundle]pathForResource:@"break1" ofType:@"jpg"];
-            rate = 0.5;
-        }
-        else if( [fatherETV.todayList count] > 1 ){
-            NSString *pictureName = [fatherETV.todayList[1] objectForKey:@"eid"];
-            pictureName = [NSString stringWithFormat:@"ex%@",pictureName];
-            path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"jpg"];
-        }
-        
+        path = [[NSBundle mainBundle]pathForResource:@"break1" ofType:@"jpg"];
+        float rate = 0.5;
         UIImage* im = [UIImage imageWithContentsOfFile:path];
         UIImageView* IV = [[UIImageView alloc]initWithImage:im];
         float tempWidth = im.size.width * rate;
@@ -232,7 +216,7 @@
             }
         });
     }
-    //[self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)redo
@@ -246,9 +230,11 @@
     [bgView removeFromSuperview];
     [self.restView removeFromSuperview];
     [breakTime removeFromSuperview];
-    [self.breakTitle removeFromSuperview];
+
     
     [self.MovieController play];
+    movieStartTime = [NSDate date]; //记录开始的播放时间
+
     
     int tempTot = [totPlay intValue];
     tempTot ++;
@@ -286,7 +272,6 @@
     [bgView removeFromSuperview];
     [self.restView removeFromSuperview];
     [breakTime removeFromSuperview];
-    [self.breakTitle removeFromSuperview];
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
     [self.navigationItem setHidesBackButton:NO];
@@ -340,16 +325,42 @@
     [request startAsynchronous];
 }
 
-#pragma mark - ASIHTTERequest Method
+#pragma mark - 
+#pragma mark ASIHTTERequest Method
 
 - (void)requestStarted:(ASIHTTPRequest *)request
 {
-    
+    if( ![self spin] ){
+        UIActivityIndicatorView* t  = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [t setCenter:self.view.center];
+        [t setBackgroundColor:[UIColor blackColor]];
+        [t setAlpha:0.8];
+        t.layer.cornerRadius = 8;
+        t.layer.masksToBounds = YES;
+        self.spin = t;
+        
+        [self.spin setFrame:CGRectZero];
+        CGRect orientationFrame = [UIScreen mainScreen].bounds;
+        CGFloat activeHeight = orientationFrame.size.height;
+        CGFloat posY = floor(activeHeight*0.39);
+        CGFloat posX = orientationFrame.size.width/2;
+        CGPoint newCenter;
+        newCenter = CGPointMake(posX, posY);
+        [self.spin setCenter:newCenter];
+        
+        [self.spin setBounds:CGRectMake(0, 0, 160, 100)];
+        [self.view addSubview:self.spin];
+        [self.spin startAnimating];
+        [self.spin becomeFirstResponder];
+    }
+
 }
 
 
 - (void)uploadFinish:(ASIHTTPRequest *)request
 {
+    [self.spin removeFromSuperview];
+    
     NSData *data = [request responseData];
     NSError *error = [[NSError alloc]init];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
@@ -412,5 +423,128 @@
             break;
     }
 }
+
+#pragma mark -
+#pragma subView
+
+//创建一个预览界面
+- (void)previewCreate
+{
+    __block UIImageView* IV = nil;
+    __block UILabel* time = nil;
+    __block UILabel *tempLabel = nil;
+    __block UIImageView *IV1 = nil;
+    __block UITextView* TV = nil;
+    
+    CGFloat width = self.view.bounds.size.width;
+    
+    
+    IV1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    IV1.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:IV1];
+    
+    
+    tempLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 30)];
+    tempLabel.text = @"准备进行的动作为:";
+    [self.view addSubview:tempLabel];
+    
+    sqlite3* database;
+    if( sqlite3_open([[self dataFilePath:databaseName] UTF8String], &database) != SQLITE_OK ){
+        sqlite3_close(database);
+        NSAssert(0, @"failed to open database");
+    }
+    
+    int pictureId = 0;
+    char *videoNameTemp = NULL;
+    char *tvTest = NULL;
+    NSString *tvNsstring = nil;
+    
+    NSString* query = [NSString stringWithFormat:@"%@%@",@"SELECT exerciseDescription, video FROM exercise WHERE eid = ",self.eid ];
+    sqlite3_stmt* statement;
+    if( sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, NULL) == SQLITE_OK ){
+        sqlite3_step(statement);
+        
+        tvTest = (char *)sqlite3_column_text(statement, 0);
+        tvNsstring = [NSString stringWithUTF8String:tvTest];
+        
+        videoNameTemp = (char *)sqlite3_column_text(statement, 1);
+        
+        int llen = strlen(videoNameTemp);
+        for( int i = 0; i < llen; i++ ){
+            if( videoNameTemp[i] >= '0' && videoNameTemp[i] <= '9' )
+                pictureId = pictureId * 10 + videoNameTemp[i] - '0';
+            if( videoNameTemp[i] == '.' )
+                break;
+        }
+        
+        sqlite3_finalize(statement);
+    }
+    sqlite3_close(database);
+    
+    
+    
+    //修改为下一张图片
+    EToday1ViewController *fatherETV = (EToday1ViewController *)self.delegate;
+    
+    NSString *path = nil;
+    float rate = pictureRate;
+   
+    NSString *pictureName = [fatherETV.todayList[0] objectForKey:@"eid"];
+    pictureName = [NSString stringWithFormat:@"ex%d",pictureId];
+    
+    if( pictureId == 4 )
+        path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"png"];
+    else
+        path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"jpg"];
+    
+    UIImage* im = [UIImage imageWithContentsOfFile:path];
+    IV = [[UIImageView alloc]initWithImage:im];
+    float tempWidth = im.size.width * rate;
+    float tempHeight = im.size.height * rate;
+    [IV setFrame:CGRectMake((self.view.bounds.size.width - tempWidth)*0.5, 30, tempWidth, tempHeight)];
+
+    [self.view addSubview:IV];
+    
+    time = [[UILabel alloc]initWithFrame:CGRectMake(10, tempHeight + 30, self.view.bounds.size.width, 30)];
+    __block int rTime = 5;
+    time.text = [NSString stringWithFormat:@"%@%d秒",@"预览时间:",rTime];
+    [self.view addSubview:time];
+    
+    TV = [[UITextView alloc]initWithFrame:CGRectMake(0, tempHeight + 30 + 30 + 10, width, 150)];
+    TV.editable = NO;
+    TV.font = [UIFont boldSystemFontOfSize:18];
+    TV.text = tvNsstring;
+    NSLog(@"%@",tvNsstring);
+    [self.view addSubview:TV];
+    [self.navigationItem setHidesBackButton:YES];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        while (1) {
+            NSLog(@"thread");
+            NSLog(@"%d",rTime);
+            sleep(1);
+            rTime --;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                time.text = [NSString stringWithFormat:@"%@%d%@",@"预览时间:",rTime,@"秒"];
+            });
+            if( rTime <= 0 ){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [IV removeFromSuperview];
+                    [time removeFromSuperview];
+                    [tempLabel removeFromSuperview];
+                    [IV1 removeFromSuperview];
+                    [TV removeFromSuperview];
+                    [self.MovieController play];
+                    [self.navigationItem setHidesBackButton:NO];
+
+                });
+                break;
+            }
+        }
+    });
+
+}
+
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define FINISHNOTIFICATION @"finishnotification"
+#define databaseName @"ehealth.db"
 
 @interface EPatientModel : NSObject
 {

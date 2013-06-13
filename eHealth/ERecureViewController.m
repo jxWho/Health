@@ -241,7 +241,7 @@
             noti.soundName = UILocalNotificationDefaultSoundName;
             noti.alertBody = @"今天的锻炼时间到啦~~~";
             noti.alertAction = @"进入锻炼";
-            noti.repeatInterval = NSDayCalendarUnit;
+//            noti.repeatInterval = NSDayCalendarUnit;
             noti.applicationIconBadgeNumber =  1;
             NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[formatter1 stringFromDate:date1],@"date", nil];
             noti.userInfo = infoDic;

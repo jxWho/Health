@@ -69,7 +69,7 @@
     [self.view addSubview:self.userPassword];
     
     UIButton* lBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [lBtn setFrame:CGRectMake(width / 2 - 30, 256 * 0.5 + 25 * 4 + 5, 50, 30)];
+    [lBtn setFrame:CGRectMake(width / 2 - 30, 256 * 0.5 + 25 * 4 + 5, 60, 50)];
     [lBtn setTitle:@"登陆" forState:UIControlStateNormal];
     self.Login = lBtn;
     [lBtn addTarget:self action:@selector(connectPost) forControlEvents:UIControlEventTouchUpInside];
