@@ -11,8 +11,10 @@
 #import "EPatientModel.h"
 #import <sqlite3.h>
 #import "EFile.h"
+#import <QuartzCore/QuartzCore.h>
 #define dataBaseName   @"ehealth.db"
 #define pictureRate    0.7
+
 
 @interface EMediaPlayViewController ()<ASIHTTPRequestDelegate>
 {
@@ -106,7 +108,6 @@
     self.MovieController.shouldAutoplay = YES;
     [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
     [self.view addSubview:self.MovieController.view];
-    movieStartTime = [NSDate date];
     totPlay = @1;
     
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
@@ -232,6 +233,8 @@
 
     
     [self.MovieController play];
+    movieStartTime = [NSDate date]; //记录开始的播放时间
+
     
     int tempTot = [totPlay intValue];
     tempTot ++;
@@ -325,12 +328,37 @@
 
 - (void)requestStarted:(ASIHTTPRequest *)request
 {
-    
+    if( ![self spin] ){
+        UIActivityIndicatorView* t  = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [t setCenter:self.view.center];
+        [t setBackgroundColor:[UIColor blackColor]];
+        [t setAlpha:0.8];
+        t.layer.cornerRadius = 8;
+        t.layer.masksToBounds = YES;
+        self.spin = t;
+        
+        [self.spin setFrame:CGRectZero];
+        CGRect orientationFrame = [UIScreen mainScreen].bounds;
+        CGFloat activeHeight = orientationFrame.size.height;
+        CGFloat posY = floor(activeHeight*0.39);
+        CGFloat posX = orientationFrame.size.width/2;
+        CGPoint newCenter;
+        newCenter = CGPointMake(posX, posY);
+        [self.spin setCenter:newCenter];
+        
+        [self.spin setBounds:CGRectMake(0, 0, 160, 100)];
+        [self.view addSubview:self.spin];
+        [self.spin startAnimating];
+        [self.spin becomeFirstResponder];
+    }
+
 }
 
 
 - (void)uploadFinish:(ASIHTTPRequest *)request
 {
+    [self.spin removeFromSuperview];
+    
     NSData *data = [request responseData];
     NSError *error = [[NSError alloc]init];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
@@ -418,6 +446,41 @@
     tempLabel.text = @"准备进行的动作为:";
     [self.view addSubview:tempLabel];
     
+    sqlite3* database;
+    if( sqlite3_open([[self dataFilePath:databaseName] UTF8String], &database) != SQLITE_OK ){
+        sqlite3_close(database);
+        NSAssert(0, @"failed to open database");
+    }
+    
+    int pictureId = 0;
+    char *videoNameTemp = NULL;
+    char *tvTest = NULL;
+    NSString *tvNsstring = nil;
+    
+    NSString* query = [NSString stringWithFormat:@"%@%@",@"SELECT exerciseDescription, video FROM exercise WHERE eid = ",self.eid ];
+    sqlite3_stmt* statement;
+    if( sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, NULL) == SQLITE_OK ){
+        sqlite3_step(statement);
+        
+        tvTest = (char *)sqlite3_column_text(statement, 0);
+        tvNsstring = [NSString stringWithUTF8String:tvTest];
+        
+        videoNameTemp = (char *)sqlite3_column_text(statement, 1);
+        
+        int llen = strlen(videoNameTemp);
+        for( int i = 0; i < llen; i++ ){
+            if( videoNameTemp[i] >= '0' && videoNameTemp[i] <= '9' )
+                pictureId = pictureId * 10 + videoNameTemp[i] - '0';
+            if( videoNameTemp[i] == '.' )
+                break;
+        }
+        
+        sqlite3_finalize(statement);
+    }
+    sqlite3_close(database);
+    
+    
+    
     //修改为下一张图片
     EToday1ViewController *fatherETV = (EToday1ViewController *)self.delegate;
     
@@ -425,8 +488,12 @@
     float rate = pictureRate;
    
     NSString *pictureName = [fatherETV.todayList[0] objectForKey:@"eid"];
-    pictureName = [NSString stringWithFormat:@"ex%@",pictureName];
-    path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"jpg"];
+    pictureName = [NSString stringWithFormat:@"ex%d",pictureId];
+    
+    if( pictureId == 4 )
+        path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"png"];
+    else
+        path = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"jpg"];
     
     UIImage* im = [UIImage imageWithContentsOfFile:path];
     IV = [[UIImageView alloc]initWithImage:im];
@@ -444,24 +511,10 @@
     TV = [[UITextView alloc]initWithFrame:CGRectMake(0, tempHeight + 30 + 30 + 10, width, 150)];
     TV.editable = NO;
     TV.font = [UIFont boldSystemFontOfSize:18];
-    sqlite3* database;
-    if( sqlite3_open([[self dataFilePath:databaseName] UTF8String], &database) != SQLITE_OK ){
-        sqlite3_close(database);
-        NSAssert(0, @"failed to open database");
-    }
-    
-    NSString* query = [NSString stringWithFormat:@"%@%@",@"SELECT exerciseDescription FROM exercise WHERE eid = ",self.eid ];
-    sqlite3_stmt* statement;
-    if( sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, NULL) == SQLITE_OK ){
-        sqlite3_step(statement);
-        char *s = (char *)sqlite3_column_text(statement, 0);
-        TV.text = [NSString stringWithUTF8String:s];
-        
-        sqlite3_finalize(statement);
-    }
-    sqlite3_close(database);
-    
+    TV.text = tvNsstring;
+    NSLog(@"%@",tvNsstring);
     [self.view addSubview:TV];
+    [self.navigationItem setHidesBackButton:YES];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         while (1) {
@@ -481,6 +534,8 @@
                     [IV1 removeFromSuperview];
                     [TV removeFromSuperview];
                     [self.MovieController play];
+                    [self.navigationItem setHidesBackButton:NO];
+
                 });
                 break;
             }

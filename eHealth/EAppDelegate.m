@@ -94,7 +94,7 @@
             noti.soundName = UILocalNotificationDefaultSoundName;
             noti.alertBody = @"今天的锻炼时间到啦~~~";
             noti.alertAction = @"进入锻炼";
-            noti.repeatInterval = NSDayCalendarUnit;
+//            noti.repeatInterval = NSDayCalendarUnit;
             noti.applicationIconBadgeNumber =  1;
             NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[formatter1 stringFromDate:date1],@"date", nil];
             noti.userInfo = infoDic;
@@ -139,6 +139,9 @@
     // Override point for customization after application launch.
     application.applicationIconBadgeNumber = 0;
     application.statusBarHidden = NO;
+    
+//    [application cancelAllLocalNotifications];
+    
     [self addNoti];
     
     [self internetCheck];
@@ -165,21 +168,7 @@
     
     UIApplication *app = [UIApplication sharedApplication];
     app.applicationIconBadgeNumber -= 1;
-    /*
-    NSArray *localArray = [app scheduledLocalNotifications];
-    UILocalNotification *localNoti = nil;
-    NSString *standardDate = [notification.userInfo objectForKey:@"date"];
-    if( localArray )
-        for( UILocalNotification *notiTemp in  localArray){
-            NSDictionary *dict = notiTemp.userInfo;
-            NSString *p = [dict objectForKey:@"date"];
-            if( [p isEqualToString:standardDate] ){
-                localNoti = notiTemp;
-                [app cancelLocalNotification:localNoti];
-                NSLog(@"delete");
-            }
-        }
-     */
+    
     [app cancelLocalNotification:notification];
     NSLog(@"receive");
     return;

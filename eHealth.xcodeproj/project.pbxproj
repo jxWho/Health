@@ -68,6 +68,7 @@
 		CB84E60B1730C6DD00A1B3E9 /* EQuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB84E6091730C6DD00A1B3E9 /* EQuestionViewController.xib */; };
 		CB84E60F1731058000A1B3E9 /* EQuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB84E60D1731057E00A1B3E9 /* EQuestionDetailViewController.m */; };
 		CB84E6101731058000A1B3E9 /* EQuestionDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB84E60E1731057F00A1B3E9 /* EQuestionDetailViewController.xib */; };
+		CB8A9FDE1769BC1200EA48D0 /* ex4.png in Resources */ = {isa = PBXBuildFile; fileRef = CB8A9FDD1769BC1200EA48D0 /* ex4.png */; };
 		CBA3CE1E173266840071B1E0 /* SVStatusHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
 		CBA5BACA1746481C0080AD78 /* ASIHTTPRequest+checkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA5BAC91746481C0080AD78 /* ASIHTTPRequest+checkStatus.m */; };
 		CBE5ACCF1722206F00B3CE5B /* EDrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5ACCE1722206F00B3CE5B /* EDrawViewController.m */; };
@@ -248,6 +249,7 @@
 		CB84E60C1731057E00A1B3E9 /* EQuestionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQuestionDetailViewController.h; sourceTree = "<group>"; };
 		CB84E60D1731057E00A1B3E9 /* EQuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQuestionDetailViewController.m; sourceTree = "<group>"; };
 		CB84E60E1731057F00A1B3E9 /* EQuestionDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQuestionDetailViewController.xib; sourceTree = "<group>"; };
+		CB8A9FDD1769BC1200EA48D0 /* ex4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ex4.png; sourceTree = "<group>"; };
 		CBA3CE1C173266840071B1E0 /* SVStatusHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStatusHUD.h; sourceTree = "<group>"; };
 		CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVStatusHUD.m; sourceTree = "<group>"; };
 		CBA5BAC81746481C0080AD78 /* ASIHTTPRequest+checkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+checkStatus.h"; sourceTree = "<group>"; };
@@ -691,6 +693,7 @@
 		CBF730751718653600A47AB2 /* drawable-xhdpi */ = {
 			isa = PBXGroup;
 			children = (
+				CB8A9FDD1769BC1200EA48D0 /* ex4.png */,
 				CBF730761718653600A47AB2 /* break1.jpg */,
 				CBF730771718653600A47AB2 /* ex1.jpg */,
 				CBF730781718653600A47AB2 /* ex10.jpg */,
@@ -886,6 +889,7 @@
 				CB4BC1D517645CB100F6949F /* video18r.mp4 in Resources */,
 				CB4BC1D617645CB100F6949F /* video19.mp4 in Resources */,
 				CB4BC1D717645CB100F6949F /* video20.mp4 in Resources */,
+				CB8A9FDE1769BC1200EA48D0 /* ex4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,7 +981,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1002,7 +1006,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

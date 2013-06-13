@@ -28,5 +28,7 @@
 @property(nonatomic, copy) NSString* eid;
 @property(nonatomic, weak) UIImageView* restView;
 @property(nonatomic, weak) id delegate;
+@property(nonatomic, weak) UIActivityIndicatorView* spin;
+
 
 @end
