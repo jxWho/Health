@@ -57,11 +57,12 @@
         
         sqlite3_finalize(statement);
     }
+    sqlite3_close(database);
+
     TV.font = [UIFont boldSystemFontOfSize:15];
     self.textView = TV;
     TV.editable = NO;
     [self.view addSubview:self.textView];
-    sqlite3_close(database);
     
     NSString* pictureName = [NSString stringWithFormat:@"%@%@",@"ex",self.eid];
     NSString* pictruePath = [[NSBundle mainBundle]pathForResource:pictureName ofType:@"jpg"];
@@ -90,7 +91,7 @@
 
 - (void)Go
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 

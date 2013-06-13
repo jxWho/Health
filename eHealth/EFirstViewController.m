@@ -546,7 +546,7 @@
                 NSString *eid = [singleton.unFinish[j] objectForKey:@"eid"];
                 if( [eid isEqualToString:dataArray[i]] ){
 
-                    [singleton.unFinish removeObjectAtIndex:j];
+//                    [singleton.unFinish removeObjectAtIndex:j];
                     break;
                 }
             }
