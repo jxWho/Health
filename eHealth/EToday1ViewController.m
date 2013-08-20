@@ -34,12 +34,15 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     CGFloat navHeight = self.navigationController.navigationBar.bounds.size.height;
     
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
     UITableView* listView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, width, height - 49 - navHeight)];
+    listView.backgroundColor = [UIColor clearColor];
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setTag:1];

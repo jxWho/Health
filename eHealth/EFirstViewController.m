@@ -53,13 +53,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     [self.navigationItem setHidesBackButton:YES];
+    
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logOut)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(reflesh)];
     
     self.navigationItem.title = @"首页";
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
     CGFloat base = width / 11;

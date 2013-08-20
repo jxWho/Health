@@ -30,50 +30,73 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"ehealth 登录";
+    CGFloat margin = 5;
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+//    UIImage* bgview = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]]];
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
+    
+//    self.view.backgroundColor = [UIColor whiteColor];
     CGFloat width = self.view.bounds.size.width;
+    CGFloat height = self.view.bounds.size.width;
 //    CGFloat height = self.view.bounds.size.
     
     NSString* path = [[NSBundle mainBundle]pathForResource:@"png_login" ofType:@"png"];
     UIImage* i = [UIImage imageWithContentsOfFile:path];
     UIImageView* pic = [[UIImageView alloc] initWithImage:i];
-    [pic setFrame:CGRectMake((width-256*0.5)/2, 0, 256*0.5, 256 * 0.5)];
+    [pic setFrame:CGRectMake((width-i.size.width/2)/2, height*0.15, i.size.width/2, i.size.height/2)];
     self.Picture = pic;
     [self.view addSubview:self.Picture];
     
-    UILabel* lname = [[UILabel alloc]initWithFrame:CGRectMake(30, 256 * 0.5 + 20, 80, 25)];
-    lname.text = @"用户名:";
-    lname.numberOfLines = 1;
-    self.Name = lname;
-
-    [self.view addSubview:self.Name];
+    //用户名部分
+//    UILabel* lname = [[UILabel alloc]initWithFrame:CGRectMake(30, 256 * 0.5 + 20, 80, 25)];
+//    lname.text = @"用户名:";
+//    lname.numberOfLines = 1;
+//    lname.backgroundColor = [UIColor clearColor];
+//    self.Name = lname;
+//    [self.view addSubview:self.Name];    
     
-    UITextField* tUserName = [[UITextField alloc]initWithFrame:CGRectMake(30 + 60 + 20, 256 * 0.5 + 20, width - 150, 25)];
+    UITextField* tUserName = [[UITextField alloc]initWithFrame:CGRectMake((width-200)/2, pic.frame.origin.y+i.size.height/2+margin, 200, 30)];
     self.userName = tUserName;
     tUserName.borderStyle = UITextBorderStyleRoundedRect;
+    tUserName.placeholder = @"用户名";
     [tUserName addTarget:self action:@selector(PassWordBecomeFirst) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:self.userName];
     
-    UILabel* lpass = [[UILabel alloc]initWithFrame:CGRectMake(30, 256 * 0.5 + 20 + 35, 80, 25)];
-    lpass.text = @"登陆密码:";
-    lpass.numberOfLines = 1;
-    self.Pass = lpass;
-    [self.view addSubview:self.Pass];
     
-    UITextField* tPassWord = [[UITextField alloc] initWithFrame:CGRectMake(30 + 60 + 20, 256 * 0.5 + 20 + 35, width-150 , 25)];
+    
+//    UILabel* lpass = [[UILabel alloc]initWithFrame:CGRectMake(30, 256 * 0.5 + 20 + 35, 80, 25)];
+//    lpass.text = @"登陆密码:";
+//    lpass.numberOfLines = 1;
+//    self.Pass = lpass;
+//    [self.view addSubview:self.Pass];
+    
+    UITextField* tPassWord = [[UITextField alloc] initWithFrame:CGRectMake((width-200)/2, tUserName.frame.origin.y+30+margin, 200 , 30)];
     tPassWord.borderStyle = UITextBorderStyleRoundedRect;
     tPassWord.secureTextEntry = YES;
+    tPassWord.placeholder = @"密码";
     [tPassWord addTarget:self action:@selector(tapRelase) forControlEvents:UIControlEventEditingDidEndOnExit];
     self.userPassword = tPassWord;
     [self.view addSubview:self.userPassword];
     
     UIButton* lBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [lBtn setFrame:CGRectMake(width / 2 - 30, 256 * 0.5 + 25 * 4 + 5, 60, 50)];
-    [lBtn setTitle:@"登陆" forState:UIControlStateNormal];
+    [lBtn setFrame:CGRectMake(tPassWord.frame.origin.x+200-60, tPassWord.frame.origin.y+35+35+margin, 60, 35)];
+    [lBtn setTitle:@"登录" forState:UIControlStateNormal];
     self.Login = lBtn;
     [lBtn addTarget:self action:@selector(connectPost) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.Login];
+    
+    UILabel* l_autoLogin = [[UILabel alloc]initWithFrame:CGRectMake(tPassWord.frame.origin.x, tPassWord.frame.origin.y+35+margin, 100, 25)];
+    l_autoLogin.text = @"自动登录";
+    l_autoLogin.backgroundColor = [UIColor clearColor];
+    l_autoLogin.numberOfLines = 1;
+    [self.view addSubview:l_autoLogin];
+    UISwitch* autoLogin = [[UISwitch alloc] initWithFrame:CGRectMake(tPassWord.frame.origin.x+200-75,tPassWord.frame.origin.y+35+margin,100,25)];
+    autoLogin.on = NO;
+    [self.view addSubview:autoLogin];
+
+    
     
     [self createIfNoDataBase];
     

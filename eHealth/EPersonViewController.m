@@ -29,9 +29,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     self.navigationItem.title = @"个人资料";
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     CGFloat width = self.view.bounds.size.width;
 //    CGFloat height = self.view.bounds.size.height;
     
@@ -64,6 +65,7 @@
     [self.view addSubview:self.image1];
     //在图片旁边添加 性别、姓名、住院号、入院日期  考虑用归档？
     UILabel* sex = [[UILabel alloc]initWithFrame:CGRectMake(256*0.5 + 10, 32, width - 256*0.5, 256*0.5 / 4)];
+    sex.backgroundColor = [UIColor clearColor];
     sex.text = @"性别:";
     if(exit){
         NSString* s;
@@ -77,6 +79,7 @@
     [self.view addSubview:self.patientSex];
     
     UILabel* name = [[UILabel alloc]initWithFrame:CGRectMake(256 * 0.5 + 10 , 32 + 256 * 0.5 / 4, width - 256 * 0.5, 256*0.5/4)];
+    name.backgroundColor = [UIColor clearColor];
     name.text = @"患者姓名:";
     if(exit){
         name.text = [NSString stringWithFormat:@"%@%@",name.text,array[1]];
@@ -85,6 +88,7 @@
     [self.view addSubview:self.patientName];
     
     UILabel* Number = [[UILabel alloc]initWithFrame:CGRectMake(256 * 0.5 + 10, 32 + ( 256 * 0.5 / 4) * 2, width - 256 * 0.5, 256 * 0.5 /4)];
+    Number.backgroundColor = [UIColor clearColor];
     Number.text = @"住院号:";
     if(exit){
         Number.text = [NSString stringWithFormat:@"%@%@",Number.text,array[2]];
@@ -92,7 +96,8 @@
     self.patientNumber = Number;
     [self.view addSubview:self.patientNumber];
     
-    UILabel* data = [[UILabel alloc]initWithFrame:CGRectMake(265 * 0.5 + 10, 32 + (256 * 0.5 / 4) * 3, width - 256 * 0.5, 256 * 0.5 /4)];
+    UILabel* data = [[UILabel alloc]initWithFrame:CGRectMake(256 * 0.5 + 10, 32 + (256 * 0.5 / 4) * 3, width - 256 * 0.5, 256 * 0.5 /4)];
+    data.backgroundColor = [UIColor clearColor];
     data.text = @"住院日期:";
     if(exit){
         data.text = [NSString stringWithFormat:@"%@%@",data.text,array[3]];
@@ -123,6 +128,7 @@
     [self.view addSubview:self.image2];
     //添加医生的名字、编号  归档？
     UILabel* doctorName1 = [[UILabel alloc]initWithFrame:CGRectMake(0 + 10, 32 + 256 * 0.5 + 32, width - 256*0.5, 256*0.5 /4)];
+    doctorName1.backgroundColor = [UIColor clearColor];
     doctorName1.text = @"医生:";
     if(exit){
         doctorName1.text = [NSString stringWithFormat:@"%@%@",doctorName1.text,array[4]];
@@ -131,6 +137,7 @@
     [self.view addSubview:self.doctorName];
     
     UILabel* dNum = [[UILabel alloc]initWithFrame:CGRectMake(0 + 10, 32 + 256*0.5 + 32 + 256*0.5/4, width - 256*0.5, 256*0.5/4)];
+    dNum.backgroundColor = [UIColor clearColor];
     dNum.text = @"医生编号:";
     if (exit) {
         dNum.text = [NSString stringWithFormat:@"%@%@",dNum.text,array[5]];

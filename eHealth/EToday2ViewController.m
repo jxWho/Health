@@ -36,6 +36,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     self.Finished = [EPatientModel sharedEPatientModel].finish;
 }
 

@@ -47,15 +47,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
 
     
     countBackUp = [self.count intValue];
     
     
     UILabel* l = [[UILabel alloc]initWithFrame:CGRectMake(8, height * 0.5, width, 30)];
+    l.backgroundColor = [UIColor clearColor];
     int c = [self.count intValue];
     l.text = [NSString stringWithFormat:@"%@%d",@"剩余次数:",c];
     self.label = l;
@@ -67,6 +70,7 @@
         NSAssert(0, @"failed to open database");
     }
     UITextView *TF = [[UITextView alloc]initWithFrame:CGRectMake(0, height*0.5+30, width, height*0.5 - 30)];
+    TF.backgroundColor = [UIColor clearColor];
     TF.editable = NO;
     NSString* querty = [NSString stringWithFormat:@"%@%@",@"SELECT exerciseDescription FROM exercise WHERE eid = ",self.eid];
     sqlite3_stmt* statement;
@@ -156,6 +160,8 @@
 - (void)finish
 {
 //    [self.MovieController.view removeFromSuperview];
+    CGFloat width = self.view.bounds.size.width;
+    CGFloat height = self.view.bounds.size.height;
     NSLog(@"bofang finish");
     int cnt = [self.count intValue];
     NSLog(@"%d 剩余",cnt);
@@ -175,7 +181,9 @@
         [self.navigationItem setHidesBackButton:YES];
         
         UIImageView* IV1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        IV1.backgroundColor = [UIColor whiteColor];
+//        IV1.backgroundColor = [UIColor whiteColor];
+        UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+        IV1.backgroundColor = [UIColor colorWithPatternImage:bgview];
         bgView = IV1;
         [self.view addSubview:bgView];
         
@@ -187,10 +195,13 @@
         float tempWidth = im.size.width * rate;
         float tempHeight = im.size.height * rate;
         [IV setFrame:CGRectMake((self.view.bounds.size.width - tempWidth)*0.5, 30, tempWidth, tempHeight)];
+        IV.backgroundColor = [UIColor clearColor];
         self.restView = IV;
         [self.view addSubview:self.restView];
         
-        UILabel* time = [[UILabel alloc]initWithFrame:CGRectMake(10, tempHeight + 30, self.view.bounds.size.width, 30)];
+        UILabel* time = [[UILabel alloc]initWithFrame:CGRectMake((width-self.view.bounds.size.width)/2, tempHeight + 30, self.view.bounds.size.width, 30)];
+        time.textAlignment = NSTextAlignmentCenter;
+        time.backgroundColor = [UIColor clearColor];
         restTime = 5;
         time.text = [NSString stringWithFormat:@"%@%d%@",@"休息剩余时间:",restTime,@"秒"];
         breakTime = time;
@@ -440,11 +451,15 @@
     
     
     IV1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    IV1.backgroundColor = [UIColor whiteColor];
+//    IV1.backgroundColor = [UIColor whiteColor];
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    IV1.backgroundColor = [UIColor colorWithPatternImage:bgview];
     [self.view addSubview:IV1];
     
     
     tempLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 30)];
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.textAlignment = NSTextAlignmentCenter;
     tempLabel.text = @"准备进行的动作为:";
     [self.view addSubview:tempLabel];
     
@@ -505,13 +520,16 @@
 
     [self.view addSubview:IV];
     
-    time = [[UILabel alloc]initWithFrame:CGRectMake(10, tempHeight + 30, self.view.bounds.size.width, 30)];
+    time = [[UILabel alloc]initWithFrame:CGRectMake((width-self.view.bounds.size.width)/2, tempHeight + 30, self.view.bounds.size.width, 30)];
     __block int rTime = 5;
+    time.backgroundColor = [UIColor clearColor];
+    time.textAlignment = NSTextAlignmentCenter;
     time.text = [NSString stringWithFormat:@"%@%d秒",@"预览时间:",rTime];
     [self.view addSubview:time];
     
     TV = [[UITextView alloc]initWithFrame:CGRectMake(0, tempHeight + 30 + 30 + 10, width, 150)];
     TV.editable = NO;
+    TV.backgroundColor = [UIColor clearColor];
     TV.font = [UIFont boldSystemFontOfSize:18];
     TV.text = tvNsstring;
     NSLog(@"%@",tvNsstring);

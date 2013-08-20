@@ -33,17 +33,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"康复动作详细资料";
 	// Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
+//    self.view.backgroundColor = [UIColor whiteColor];
     
     [self.navigationController setNavigationBarHidden:NO];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"back" style:UIBarButtonItemStyleDone target:self action:@selector(Go)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:self action:@selector(Go)];
 
     
     CGFloat width = self.view.bounds.size.width;
     
     UITextView* TV = [[UITextView alloc]initWithFrame:CGRectMake(30, 5, width - 60, 80)];
+    TV.backgroundColor = [UIColor clearColor];
     sqlite3* database;
     
     int pictureId = 0;

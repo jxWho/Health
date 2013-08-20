@@ -30,6 +30,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIImage* bgview = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"png_background2" ofType:@"png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgview];
     NSNumber *did = nil;
     NSString *filePath = [EFile dataFilePath:personFile];
     if( [[NSFileManager defaultManager]fileExistsAtPath:filePath] ){
