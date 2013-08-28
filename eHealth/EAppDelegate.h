@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ELoginViewController.h"
 #import "Reachability.h"
+#import <MessageUI/MessageUI.h>
 
 @class EViewController;
 
-@interface EAppDelegate : UIResponder <UIApplicationDelegate>
+@interface EAppDelegate : UIResponder <UIApplicationDelegate, MFMailComposeViewControllerDelegate>
 {
     Reachability *internetReach;
     Reachability *wifiReach;

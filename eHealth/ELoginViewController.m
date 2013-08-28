@@ -234,6 +234,13 @@
 
 - (void)connectPost
 {
+    /*
+     test code
+     */
+//    NSArray *array = [NSArray arrayWithObject:@1];
+//    NSLog(@"%d" ,[array[1]intValue]);
+    
+    //
     NSString* add = @"http://myehealth.sinaapp.com/Patient/checkLogin";
     NSURL* url = [NSURL URLWithString:add];
     ASIFormDataRequest* request = [[ASIFormDataRequest alloc]initWithURL:url];
