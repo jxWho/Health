@@ -8,6 +8,7 @@
 
 #import "EAppDelegate.h"
 #import "SVStatusHUD.h"
+#import "CrashReportSender.h"
 
 @implementation EAppDelegate
 
@@ -158,7 +159,30 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exerciseFinish) name:FINISHNOTIFICATION object:nil];
     
+    if([MFMailComposeViewController canSendMail] && [[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]){
+        
+        NSString *crashReport = [[CrashReportSender sharedCrashReportSender] getLastCrashReport];
+        MFMailComposeViewController *vc = [[MFMailComposeViewController alloc] init];
+        [vc setToRecipients:[NSArray arrayWithObject:@"hjxwho@gmail.com"]];
+        [vc setSubject:@"App Crash"];
+        vc.mailComposeDelegate = self;
+        NSData *data = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterShortStyle];
+        [formatter setTimeStyle:NSDateFormatterNoStyle];
+        NSString *date = [formatter stringFromDate:[NSDate date]];
+
+        
+        [vc addAttachmentData:data  mimeType:@"text/xml" fileName:[NSString stringWithFormat:@"%@.crash",date]];
+        [(UINavigationController *)self.window.rootViewController presentModalViewController:vc animated:YES];
+    }
+    
     return YES;
+}
+
+- (void) mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
+    [(UINavigationController *)self.window.rootViewController dismissModalViewControllerAnimated:YES];
 }
 
 

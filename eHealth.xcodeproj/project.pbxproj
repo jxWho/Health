@@ -69,6 +69,9 @@
 		CB84E60F1731058000A1B3E9 /* EQuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB84E60D1731057E00A1B3E9 /* EQuestionDetailViewController.m */; };
 		CB84E6101731058000A1B3E9 /* EQuestionDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB84E60E1731057F00A1B3E9 /* EQuestionDetailViewController.xib */; };
 		CB8A9FDE1769BC1200EA48D0 /* ex4.png in Resources */ = {isa = PBXBuildFile; fileRef = CB8A9FDD1769BC1200EA48D0 /* ex4.png */; };
+		CB9FD7BF17C85EF90001184E /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9FD7BC17C85EF90001184E /* CrashReporter.framework */; };
+		CB9FD7C017C85EF90001184E /* CrashReportSender.m in Sources */ = {isa = PBXBuildFile; fileRef = CB9FD7BE17C85EF90001184E /* CrashReportSender.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CB9FD7C217C85F2F0001184E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9FD7C117C85F2F0001184E /* MessageUI.framework */; };
 		CBA3CE1E173266840071B1E0 /* SVStatusHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
 		CBA5BACA1746481C0080AD78 /* ASIHTTPRequest+checkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA5BAC91746481C0080AD78 /* ASIHTTPRequest+checkStatus.m */; };
 		CBE5ACCF1722206F00B3CE5B /* EDrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5ACCE1722206F00B3CE5B /* EDrawViewController.m */; };
@@ -250,6 +253,10 @@
 		CB84E60D1731057E00A1B3E9 /* EQuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQuestionDetailViewController.m; sourceTree = "<group>"; };
 		CB84E60E1731057F00A1B3E9 /* EQuestionDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQuestionDetailViewController.xib; sourceTree = "<group>"; };
 		CB8A9FDD1769BC1200EA48D0 /* ex4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ex4.png; sourceTree = "<group>"; };
+		CB9FD7BC17C85EF90001184E /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
+		CB9FD7BD17C85EF90001184E /* CrashReportSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReportSender.h; sourceTree = "<group>"; };
+		CB9FD7BE17C85EF90001184E /* CrashReportSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashReportSender.m; sourceTree = "<group>"; };
+		CB9FD7C117C85F2F0001184E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CBA3CE1C173266840071B1E0 /* SVStatusHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVStatusHUD.h; sourceTree = "<group>"; };
 		CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVStatusHUD.m; sourceTree = "<group>"; };
 		CBA5BAC81746481C0080AD78 /* ASIHTTPRequest+checkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+checkStatus.h"; sourceTree = "<group>"; };
@@ -360,11 +367,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB9FD7C217C85F2F0001184E /* MessageUI.framework in Frameworks */,
+				CB79E368171A5F43001D8136 /* SystemConfiguration.framework in Frameworks */,
 				CBE5BA2B1728D18C00017B40 /* AudioToolbox.framework in Frameworks */,
 				CB79E35A171A5F0F001D8136 /* MediaPlayer.framework in Frameworks */,
 				CB5529D7171ABDB700233C3E /* libsqlite3.dylib in Frameworks */,
 				CB552886171A991200233C3E /* QuartzCore.framework in Frameworks */,
-				CB79E368171A5F43001D8136 /* SystemConfiguration.framework in Frameworks */,
 				CB79E366171A5F3C001D8136 /* MobileCoreServices.framework in Frameworks */,
 				CB79E364171A5F35001D8136 /* libz.1.2.5.dylib in Frameworks */,
 				CB79E362171A5F2D001D8136 /* CFNetwork.framework in Frameworks */,
@@ -374,6 +382,7 @@
 				CBF7302417185C9500A47AB2 /* UIKit.framework in Frameworks */,
 				CBF7302617185C9500A47AB2 /* Foundation.framework in Frameworks */,
 				CBF7302817185C9500A47AB2 /* CoreGraphics.framework in Frameworks */,
+				CB9FD7BF17C85EF90001184E /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +504,15 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		CB9FD7BB17C85EE20001184E /* crashReport */ = {
+			isa = PBXGroup;
+			children = (
+				CB9FD7BD17C85EF90001184E /* CrashReportSender.h */,
+				CB9FD7BE17C85EF90001184E /* CrashReportSender.m */,
+			);
+			name = crashReport;
+			sourceTree = "<group>";
+		};
 		CBA3CE1B173266840071B1E0 /* SVStatusHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -587,6 +605,7 @@
 		CBF7301717185C9500A47AB2 = {
 			isa = PBXGroup;
 			children = (
+				CB9FD7BB17C85EE20001184E /* crashReport */,
 				CB4BC1A517645C9C00F6949F /* video */,
 				CBEA62EF173A02CB00A49A65 /* Database */,
 				CBF7302A17185C9500A47AB2 /* Supporting Files */,
@@ -614,6 +633,8 @@
 		CBF7302217185C9500A47AB2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CB9FD7C117C85F2F0001184E /* MessageUI.framework */,
+				CB9FD7BC17C85EF90001184E /* CrashReporter.framework */,
 				CBE5BA2A1728D18C00017B40 /* AudioToolbox.framework */,
 				CB5529D6171ABDB700233C3E /* libsqlite3.dylib */,
 				CB79E35B171A5F18001D8136 /* libxml2.dylib */,
@@ -938,6 +959,7 @@
 				CBA3CE1E173266840071B1E0 /* SVStatusHUD.m in Sources */,
 				CB6B9D15173BB79500FA8735 /* EPatientModel.m in Sources */,
 				CBA5BACA1746481C0080AD78 /* ASIHTTPRequest+checkStatus.m in Sources */,
+				CB9FD7C017C85EF90001184E /* CrashReportSender.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,7 +1047,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "eHealth/eHealth-Prefix.pch";
 				INFOPLIST_FILE = "eHealth/eHealth-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1043,7 +1065,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "eHealth/eHealth-Prefix.pch";
 				INFOPLIST_FILE = "eHealth/eHealth-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
