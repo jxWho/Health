@@ -37,24 +37,24 @@
 		CB5067FC171D5F5300FB454B /* ERecureDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5067FB171D5F5300FB454B /* ERecureDetailViewController.m */; };
 		CB5067FF171D74E700FB454B /* EMediaPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5067FE171D74E700FB454B /* EMediaPlayViewController.m */; };
 		CB552886171A991200233C3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB552885171A991200233C3E /* QuartzCore.framework */; };
-		CB5529C9171AAE6500233C3E /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529AF171AAE6500233C3E /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CA171AAE6500233C3E /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B2171AAE6500233C3E /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CB171AAE6500233C3E /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B4171AAE6500233C3E /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CC171AAE6500233C3E /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B6171AAE6500233C3E /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CD171AAE6500233C3E /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B8171AAE6500233C3E /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CE171AAE6500233C3E /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529BB171AAE6500233C3E /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529CF171AAE6500233C3E /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529BF171AAE6500233C3E /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB5529D0171AAE6500233C3E /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529C1171AAE6500233C3E /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CB5529C9171AAE6500233C3E /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529AF171AAE6500233C3E /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CA171AAE6500233C3E /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B2171AAE6500233C3E /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CB171AAE6500233C3E /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B4171AAE6500233C3E /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CC171AAE6500233C3E /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B6171AAE6500233C3E /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CD171AAE6500233C3E /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529B8171AAE6500233C3E /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CE171AAE6500233C3E /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529BB171AAE6500233C3E /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529CF171AAE6500233C3E /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529BF171AAE6500233C3E /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB5529D0171AAE6500233C3E /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529C1171AAE6500233C3E /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB5529D1171AAE6500233C3E /* README-GHUnit in Resources */ = {isa = PBXBuildFile; fileRef = CB5529C5171AAE6500233C3E /* README-GHUnit */; };
-		CB5529D2171AAE6500233C3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529C8171AAE6500233C3E /* Reachability.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CB5529D2171AAE6500233C3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529C8171AAE6500233C3E /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB5529D5171AB14E00233C3E /* EFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5529D4171AB14E00233C3E /* EFirstViewController.m */; };
 		CB5529D7171ABDB700233C3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5529D6171ABDB700233C3E /* libsqlite3.dylib */; };
 		CB601F3A1719A2CE00586531 /* ETodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB601F391719A2CD00586531 /* ETodayViewController.m */; };
 		CB601F3D1719A37300586531 /* EToday1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB601F3C1719A37300586531 /* EToday1ViewController.m */; };
 		CB601F401719A3EE00586531 /* EToday2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB601F3F1719A3EE00586531 /* EToday2ViewController.m */; };
 		CB6B9D15173BB79500FA8735 /* EPatientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CB6B9D14173BB79500FA8735 /* EPatientModel.m */; };
-		CB7126291723926B00CF6709 /* EAbstarctActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CB7126281723926B00CF6709 /* EAbstarctActionSheetPicker.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CB71262C1723933F00CF6709 /* EActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CB71262B1723933F00CF6709 /* EActionSheetDatePicker.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CB7126291723926B00CF6709 /* EAbstarctActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CB7126281723926B00CF6709 /* EAbstarctActionSheetPicker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CB71262C1723933F00CF6709 /* EActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CB71262B1723933F00CF6709 /* EActionSheetDatePicker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB79E352171A4998001D8136 /* ELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB79E351171A4998001D8136 /* ELoginViewController.m */; };
 		CB79E35A171A5F0F001D8136 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB79E359171A5F0F001D8136 /* MediaPlayer.framework */; };
 		CB79E35C171A5F18001D8136 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB79E35B171A5F18001D8136 /* libxml2.dylib */; };
@@ -70,17 +70,17 @@
 		CB84E6101731058000A1B3E9 /* EQuestionDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB84E60E1731057F00A1B3E9 /* EQuestionDetailViewController.xib */; };
 		CB8A9FDE1769BC1200EA48D0 /* ex4.png in Resources */ = {isa = PBXBuildFile; fileRef = CB8A9FDD1769BC1200EA48D0 /* ex4.png */; };
 		CB9FD7BF17C85EF90001184E /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9FD7BC17C85EF90001184E /* CrashReporter.framework */; };
-		CB9FD7C017C85EF90001184E /* CrashReportSender.m in Sources */ = {isa = PBXBuildFile; fileRef = CB9FD7BE17C85EF90001184E /* CrashReportSender.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CB9FD7C017C85EF90001184E /* CrashReportSender.m in Sources */ = {isa = PBXBuildFile; fileRef = CB9FD7BE17C85EF90001184E /* CrashReportSender.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB9FD7C217C85F2F0001184E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9FD7C117C85F2F0001184E /* MessageUI.framework */; };
-		CBA3CE1E173266840071B1E0 /* SVStatusHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CBA3CE1E173266840071B1E0 /* SVStatusHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA3CE1D173266840071B1E0 /* SVStatusHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CBA5BACA1746481C0080AD78 /* ASIHTTPRequest+checkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA5BAC91746481C0080AD78 /* ASIHTTPRequest+checkStatus.m */; };
 		CBE5ACCF1722206F00B3CE5B /* EDrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5ACCE1722206F00B3CE5B /* EDrawViewController.m */; };
-		CBE5BA111728D0A300017B40 /* BubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9EF1728D0A300017B40 /* BubbleMessageCell.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CBE5BA121728D0A300017B40 /* BubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F11728D0A300017B40 /* BubbleView.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CBE5BA131728D0A300017B40 /* MessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F31728D0A300017B40 /* MessageInputView.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CBE5BA141728D0A300017B40 /* MessageSoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F51728D0A300017B40 /* MessageSoundEffect.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CBE5BA151728D0A300017B40 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F71728D0A300017B40 /* MessagesViewController.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
-		CBE5BA161728D0A300017B40 /* NSString+MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F91728D0A300017B40 /* NSString+MessagesView.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CBE5BA111728D0A300017B40 /* BubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9EF1728D0A300017B40 /* BubbleMessageCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CBE5BA121728D0A300017B40 /* BubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F11728D0A300017B40 /* BubbleView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CBE5BA131728D0A300017B40 /* MessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F31728D0A300017B40 /* MessageInputView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CBE5BA141728D0A300017B40 /* MessageSoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F51728D0A300017B40 /* MessageSoundEffect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CBE5BA151728D0A300017B40 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F71728D0A300017B40 /* MessagesViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CBE5BA161728D0A300017B40 /* NSString+MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5B9F91728D0A300017B40 /* NSString+MessagesView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CBE5BA171728D0A300017B40 /* input-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = CBE5B9FC1728D0A300017B40 /* input-bar.png */; };
 		CBE5BA181728D0A300017B40 /* input-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBE5B9FD1728D0A300017B40 /* input-bar@2x.png */; };
 		CBE5BA191728D0A300017B40 /* input-field.png in Resources */ = {isa = PBXBuildFile; fileRef = CBE5B9FE1728D0A300017B40 /* input-field.png */; };
@@ -99,11 +99,11 @@
 		CBE5BA261728D0A300017B40 /* send@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBE5BA0B1728D0A300017B40 /* send@2x.png */; };
 		CBE5BA271728D0A300017B40 /* messageReceived.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CBE5BA0D1728D0A300017B40 /* messageReceived.aiff */; };
 		CBE5BA281728D0A300017B40 /* messageSent.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CBE5BA0E1728D0A300017B40 /* messageSent.aiff */; };
-		CBE5BA291728D0A300017B40 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5BA101728D0A300017B40 /* UIView+AnimationOptionsForCurve.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CBE5BA291728D0A300017B40 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5BA101728D0A300017B40 /* UIView+AnimationOptionsForCurve.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CBE5BA2B1728D18C00017B40 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE5BA2A1728D18C00017B40 /* AudioToolbox.framework */; };
 		CBE5BA2E1728D23F00017B40 /* ECommunicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE5BA2D1728D23F00017B40 /* ECommunicationViewController.m */; };
 		CBEA62F1173A02D900A49A65 /* ehealth.db in Resources */ = {isa = PBXBuildFile; fileRef = CBEA62F0173A02D900A49A65 /* ehealth.db */; };
-		CBEFB5AF1721AB28007FD92F /* ELineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBEFB5AE1721AB28007FD92F /* ELineChartView.m */; settings = {COMPILER_FLAGS = "\"-fno-objc-arc\""; }; };
+		CBEFB5AF1721AB28007FD92F /* ELineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBEFB5AE1721AB28007FD92F /* ELineChartView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CBF7302417185C9500A47AB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF7302317185C9500A47AB2 /* UIKit.framework */; };
 		CBF7302617185C9500A47AB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF7302517185C9500A47AB2 /* Foundation.framework */; };
 		CBF7302817185C9500A47AB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF7302717185C9500A47AB2 /* CoreGraphics.framework */; };
@@ -1038,6 +1038,7 @@
 		CBF7304417185C9500A47AB2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Desktop\"",
@@ -1056,6 +1057,7 @@
 		CBF7304517185C9500A47AB2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Desktop\"",

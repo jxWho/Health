@@ -95,8 +95,10 @@
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
     
-    NSURL* url = [NSURL fileURLWithPath:self.mediaFileName];
+//    NSURL* url = [NSURL fileURLWithPath:self.mediaFileName];
+    NSURL *url = [NSURL fileURLWithPath:@"a.mp4"];
     
+    /*
     NSString* kk;
     if( [[NSFileManager defaultManager] fileExistsAtPath:self.mediaFileName] )
         kk = @"Exist";
@@ -106,8 +108,11 @@
     }
     NSLog(@"%@ sdfsdf",kk);
     NSLog(@"test");
+     */
     
     self.MovieController = [[MPMoviePlayerController alloc]initWithContentURL:url];
+    if( self.MovieController == nil)
+        assert(@"fail file");
     self.MovieController.controlStyle = MPMovieControlStyleNone;
     self.MovieController.shouldAutoplay = YES;
     [self.MovieController.view setFrame:CGRectMake(0, 0, width, height * 0.5)];
