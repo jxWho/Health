@@ -1,7 +1,3 @@
-<<<<<<< HEAD
 health
 ======
-=======
-he
-==
->>>>>>> 94046473b52ee82c8077cba4ecd67e245815f4a9
+It's an app for a hospital to help their patients to recover.
